@@ -1,20 +1,26 @@
 import express from "express";
+import cookieParser from "cookie-parser";
+
 import ENV from "./config/dotenv.js";
+import connectDB from "./config/db.js";
 
 import authRoutes from "./routes/auth.routes.js";
 import movieRoutes from "./routes/movie.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import tvRoutes from "./routes/tv.routes.js";
+import searchRoutes from "./routes/search.routes.js";
+import {protectRoute} from "./middleware/protectRoute.js";
 
-import connectDB from "./config/db.js";
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/movie", movieRoutes);
-app.use("/api/v1/tv",tvRoutes);
+app.use("/api/v1/movie",protectRoute, movieRoutes);
+app.use("/api/v1/tv",protectRoute,tvRoutes);
+app.use("/api/v1/search",protectRoute,searchRoutes);
 
 const PORT = ENV.PORT;
 
