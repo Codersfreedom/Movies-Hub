@@ -30,7 +30,7 @@ export default () => {
       pagination={{ clickable: true }}
       spaceBetween={30}
     >
-      <SwiperSlide className='relative'> <img src="wallpaperflare.jpg" alt="" srcset="" />
+      <SwiperSlide className='relative'> <img src="wallpaperflare.jpg" alt="" />
         <div className='absolute flex flex-col gap-3 bottom-5 left-3 justify-start items-start pl-4 text-white'>
           <h1 className='text-4xl'>Movie name</h1>
           <div className='flex justify-between  ' >

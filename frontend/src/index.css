@@ -23,6 +23,20 @@ body{
     background: transparent;
 }
 
+.active{
+    
+    border-right: 2px solid purple;
+    color: purple;
+}
 
 
+.card{
+    border-radius: 1rem;
+    transition: ease-in-out 0.3s;
+    cursor: pointer;
 
+}
+.card>img:hover {
+    border: 1px solid white;
+
+}
