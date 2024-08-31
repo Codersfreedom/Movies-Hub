@@ -22,10 +22,10 @@ export default () => {
     <Swiper className='mySwiper rounded-s-lg rounded-e-lg'
       modules={[Navigation, Autoplay, Pagination]}
       navigation={true}
-      // autoplay={{
-      //   delay: 2500,
-      //   disableOnInteraction: false,
-      // }}
+      autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
       centeredSlides={true}
       pagination={{ clickable: true }}
       spaceBetween={30}
