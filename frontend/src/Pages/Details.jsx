@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom'
-import { Skeleton, SkeletonText } from '@chakra-ui/skeleton'
+import { useState } from 'react'
+
 import CardSwiper from '../Components/CardSwiper'
 import Header from '../Components/Header'
 import LeftSideBar from '../Components/LeftSideBar'
 
-import { Check,  Heart, Star,  Volume2, VolumeOff } from 'lucide-react'
-import { useState } from 'react'
+import { Skeleton, SkeletonText } from '@chakra-ui/skeleton'
+import { Check, Heart, Star, Volume2, VolumeOff } from 'lucide-react'
 
 const Details = () => {
-    const [isLoading,setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     return (
         <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white  mt-16 relative mx-auto'>
@@ -40,7 +41,7 @@ const Details = () => {
                         </div>
 
                         <div className='flex justify-center items-center  gap-2'>
-                            <Heart className='rounded-full hover:cursor-pointer  hover:bg-slate-500 transition-colors bg-slate-400 h-12 w-12 p-3' size={30} />
+                            <Heart className='rounded-full hover:cursor-pointer hover:bg-slate-500 transition-colors bg-slate-400 h-12 w-12 p-3' size={30} />
                             <Check className='rounded-full hover:cursor-pointer hover:bg-slate-500 transition-colors bg-slate-400 h-12 w-12 p-3' size={30} />
 
                         </div>
@@ -67,7 +68,7 @@ const Details = () => {
                     <CardSwiper />
 
                 </div>
-                
+
                 <h1 className='ml-24 text-2xl font-bold'>Similar</h1>
                 <div className='similar ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-0 mr-12 '>
                     <Link to="/movie/1234" className='flex h-80 w-52 flex-col gap-3   '>

@@ -19,7 +19,7 @@ export default () => {
 
 
   return (
-    <Swiper className='mySwiper rounded-s-lg rounded-e-lg'
+    <Swiper className='mySwiper w-full h-full rounded-s-lg rounded-e-lg'
       modules={[Navigation, Autoplay, Pagination]}
       navigation={true}
       autoplay={{
