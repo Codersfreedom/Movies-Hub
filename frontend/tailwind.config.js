@@ -12,6 +12,7 @@ export default {
         'global-border':'rgba(8, 8, 8, .1)',
         'primary-dark':'#222222',
         'body-dark':'#080808',
+        'card-dark':'#2d3748',
       
 
       }
