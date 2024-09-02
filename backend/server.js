@@ -9,6 +9,7 @@ import movieRoutes from "./routes/movie.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import tvRoutes from "./routes/tv.routes.js";
 import searchRoutes from "./routes/search.routes.js";
+import trendingRoutes from "./routes/trending.routes.js";
 import {protectRoute} from "./middleware/protectRoute.js";
 
 const app = express();
@@ -18,8 +19,9 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/movie",protectRoute, movieRoutes);
-app.use("/api/v1/tv",protectRoute,tvRoutes);
+app.use("/api/v1/trending", trendingRoutes);
+app.use("/api/v1/movie", movieRoutes);
+app.use("/api/v1/tv",tvRoutes);
 app.use("/api/v1/search",protectRoute,searchRoutes);
 
 const PORT = ENV.PORT;
