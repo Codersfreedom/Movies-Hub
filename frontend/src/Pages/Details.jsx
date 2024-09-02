@@ -8,7 +8,7 @@ import LeftSideBar from '../Components/LeftSideBar'
 import { Skeleton, SkeletonText } from '@chakra-ui/skeleton'
 import { Check, Heart, Star, Volume2, VolumeOff } from 'lucide-react'
 
-const Details = () => {
+const Details = ({pageName}) => {
     const [isLoading, setIsLoading] = useState(true);
 
     return (
@@ -71,7 +71,7 @@ const Details = () => {
 
                 <h1 className='ml-24 text-2xl font-bold'>Similar</h1>
                 <div className='similar ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-0 mr-12 '>
-                    <Link to="/movie/1234" className='flex h-80 w-52 flex-col gap-3   '>
+                    <Link to={`/${pageName}/1234`} className='flex h-80 w-52 flex-col gap-3   '>
                         <div className='w-full h-4/5 transition-transform hover:border-2 rounded-lg hover:border-white overflow-hidden '>
                             <Skeleton
                                 height={'256px'}

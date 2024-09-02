@@ -49,7 +49,7 @@ const Content = ({ pageName }) => {
 
                 <div className='min-w-4/5  ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-0 mr-12 '>
 
-                    <Link to="/movie/1234" className='flex h-80 w-52 flex-col gap-3   '>
+                    <Link to={`/${pageName}/1234`} className='flex h-80 w-52 flex-col gap-3   '>
                             <div className='w-full h-4/5 transition-transform hover:border-2 rounded-lg hover:border-white overflow-hidden '>
                         <Skeleton
                             height={'256px'}

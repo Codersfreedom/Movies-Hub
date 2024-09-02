@@ -3,7 +3,7 @@ import Home from './Pages/Home';
 import Signup from './Pages/Signup';
 import Login from './Pages/Login';
 import Content from './Pages/Content';
-import HistoryPage from './Pages/HistoryPage';
+import History from './Pages/History';
 import Profile from './Pages/Profile';
 import Details from './Pages/Details';
 
@@ -20,7 +20,7 @@ function App() {
      <Route path="/movie/:id" element={<Details pageName={'movies'}/>} />
      <Route path="/tv" element={<Content pageName={'tv'} />} />
      <Route path="/tv/:id" element={<Details pageName={'tv'} />} />
-     <Route path="/history" element={<HistoryPage />} />
+     <Route path="/history" element={<History/>} />
      <Route path="/profile" element={<Profile />} />
 
     </Routes>
