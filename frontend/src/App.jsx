@@ -16,8 +16,8 @@ function App() {
      <Route path="/login" element={<Login />} />
      <Route path="/signup" element={<Signup />} />
      <Route path="/trending" element={<Content pageName={'trending'} />} />
-     <Route path="/movies" element={<Content pageName={'movies'} />} />
-     <Route path="/movie/:id" element={<Details pageName={'movies'}/>} />
+     <Route path="/movies" element={<Content pageName={'movie'} />} />
+     <Route path="/movie/:id" element={<Details pageName={'movie'}/>} />
      <Route path="/tv" element={<Content pageName={'tv'} />} />
      <Route path="/tv/:id" element={<Details pageName={'tv'} />} />
      <Route path="/history" element={<History/>} />

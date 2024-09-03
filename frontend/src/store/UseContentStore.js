@@ -5,5 +5,7 @@ export const useContentStore = create((set)=>({
     setSliderData: (data) => set({sliderData:data}),
     categoryContent:{},
     setCategoryContent: (data) =>set({categoryContent:data}),
+    contentDetails:{},
+    setContentDetails: (data) =>set({contentDetails:data}),
     
 }))

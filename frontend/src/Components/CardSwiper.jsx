@@ -10,10 +10,11 @@ import 'swiper/css/navigation';
 import './Card-swiper.css';
 
 // import required modules
-import {  Navigation } from 'swiper/modules';
-import { Share, ThumbsUp } from 'lucide-react';
+import { Navigation } from 'swiper/modules';
+import { Share, Star, ThumbsUp } from 'lucide-react';
+import { SMALL_IMAGE_PATH } from '../utils/constants';
 
-const CardSwiper = () => {
+const CardSwiper = ({ reviews }) => {
     const [swiperRef, setSwiperRef] = useState(null);
 
 
@@ -27,95 +28,66 @@ const CardSwiper = () => {
                 centeredSlides={false}
                 spaceBetween={30}
                 navigation={true}
-                modules={[ Navigation]}
+                modules={[Navigation]}
                 className="mySwiper"
             >
-                <SwiperSlide>
-                    <Card maxW='md' className='dark:bg-card-dark dark:text-white rounded-lg'>
-                        <CardHeader>
-                            <Flex spacing='4'>
-                                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                                    <Avatar name='Segun Adebayo' src='' alt="image" />
+                {reviews.map((review, index) => {
+                    return (
+                        <SwiperSlide key={index} className='h-full '>
+                            <Card maxW='md' className='dark:bg-card-dark h-full w-full  dark:text-white rounded-lg'>
+                                <CardHeader>
+                                    <Flex spacing='4'>
+                                        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                                            <Avatar name={review.author} src={SMALL_IMAGE_PATH + review.author_details.avatar_path} alt="image" />
 
-                                    <Box>
-                                        <h2 className='font-bold'>Segun Adebayo</h2>
-                                        <Text className='text-start'>Rating, date</Text>
-                                    </Box>
-                                </Flex>
+                                            <Box>
+                                                <h2 className='font-bold'>{review?.author}</h2>
+                                                <div className='flex items-center gap-2'>
+                                                    <div className='flex items-center gap-1'>
+                                                        <Star size={17} />
+                                                        <p>{review.author_details.rating === null ? "0" : review.author_details.rating}</p>
 
-                            </Flex>
-                        </CardHeader>
-                        <CardBody>
-                            <Text className='text-start'>
-                                With Chakra UI, I wanted to sync the speed of development with the speed
-                                of design. I wanted the developer to be just as excited as the designer to
-                                create a screen.
-                            </Text>
-                        </CardBody>
+                                                    </div>
+                                                    <div>
+                                                        <p>{review.created_at.split("-")[0]}</p>
+                                                    </div>
+                                                </div>
+                                            </Box>
+                                        </Flex>
 
-                        <CardFooter
+                                    </Flex>
+                                </CardHeader>
+                                <CardBody className=' overflow-hidden  h-[126px]'>
+                                    <Text className='text-start '>
+                                        {review.content}
+                                    </Text>
+                                </CardBody>
 
-                            justify='space-between'
-                            flexWrap='wrap'
-                            sx={{
-                                '& > button': {
-                                    minW: '136px',
-                                },
-                            }}
-                        >
-                            <Button className=' dark:text-white' flex='1' variant='ghost' leftIcon={<ThumbsUp />}>
-                                Like
-                            </Button>
+                                <CardFooter
 
-                            <Button className='dark:text-white' flex='1' variant='ghost' leftIcon={<Share />}>
-                                Share
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Card maxW='md' className='dark:bg-card-dark dark:text-white'>
-                        <CardHeader>
-                            <Flex spacing='4'>
-                                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                                    <Avatar name='Segun Adebayo' src='' alt="image" />
+                                    justify='space-between'
+                                    flexWrap='wrap'
+                                    sx={{
+                                        '& > button': {
+                                            minW: '136px',
+                                        },
+                                    }}
+                                >
+                                    <Button className=' dark:text-white' flex='1' variant='ghost' leftIcon={<ThumbsUp />}>
+                                        Like
+                                    </Button>
 
-                                    <Box>
-                                        <h2 className='font-bold'>Segun Adebayo</h2>
-                                        <Text>Creator, Chakra UI</Text>
-                                    </Box>
-                                </Flex>
+                                    <Button className='dark:text-white' flex='1' variant='ghost' leftIcon={<Share />}>
+                                        Share
+                                    </Button>
+                                </CardFooter>
+                            </Card>
+                        </SwiperSlide>
+                    )
+                })}
 
-                            </Flex>
-                        </CardHeader>
-                        <CardBody>
-                            <Text>
-                                With Chakra UI, I wanted to sync the speed of development with the speed
-                                of design. I wanted the developer to be just as excited as the designer to
-                                create a screen.
-                            </Text>
-                        </CardBody>
 
-                        <CardFooter
 
-                            justify='space-between'
-                            flexWrap='wrap'
-                            sx={{
-                                '& > button': {
-                                    minW: '136px',
-                                },
-                            }}
-                        >
-                            <Button className=' dark:text-white' flex='1' variant='ghost' leftIcon={<ThumbsUp />}>
-                                Like
-                            </Button>
-
-                            <Button className='dark:text-white' flex='1' variant='ghost' leftIcon={<Share />}>
-                                Share
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                </SwiperSlide>
 
             </Swiper>
 
