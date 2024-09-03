@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import CardSwiper from '../Components/CardSwiper'
 import Header from '../Components/Header'
@@ -9,37 +9,43 @@ import { Skeleton, SkeletonText } from '@chakra-ui/skeleton'
 import { Check, Heart, Star, Volume2, VolumeOff } from 'lucide-react'
 import { useContentStore } from '../store/UseContentStore'
 import useGetDetails from '../hooks/useGetDetails'
-import { ORIGINAL_IMAGE_PATH } from '../utils/constants'
+import { ORIGINAL_IMAGE_PATH, SMALL_IMAGE_PATH } from '../utils/constants'
 import useFetchReviews from '../hooks/useFetchReviews'
+import useFetchSimilar from '../hooks/useFetchSimilar'
 
 const Details = ({ pageName }) => {
-    
+
 
     const { id } = useParams();
 
-    const { getDetails,isLoading } = useGetDetails();
-    const {fetchReviews,reviews} = useFetchReviews()
+    const { getDetails } = useGetDetails();
+    const { fetchReviews, reviews } = useFetchReviews()
+    const { fetchSimilar, similar, isLoading } = useFetchSimilar()
 
     const { contentDetails } = useContentStore();
 
-    useState(() => {
+    useEffect(() => {
         getDetails(id);
+        fetchReviews(id, pageName);
+        fetchSimilar(id, pageName);
     }, [id])
 
-       // Getting reviews 
-       useEffect(()=>{
-        fetchReviews(id,pageName);
-    },[id])
 
-    if(Object.keys(contentDetails).length ==0 || isLoading){
+
+
+
+
+    if (Object.keys(contentDetails).length == 0 || isLoading) {
         return (
             <div className='h-screen w-screen bg-black'>
 
             </div>
         )
     }
-  
-    
+
+    console.log("Similar:",similar);
+    console.log("Reviews:",reviews)
+
     return (
         <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white  mt-16 relative mx-auto'>
             <Header />
@@ -47,8 +53,8 @@ const Details = ({ pageName }) => {
             {/* Content start */}
             <div className='w-full min-h-full flex flex-col '>
                 {/* Banner */}
-                <div className='relative h-[70vh]  w-screen  ml-16  rounded-md' >
-                    <img className='max-h-full  w-full object-cover' src={ORIGINAL_IMAGE_PATH+contentDetails.poster_path} alt="" />
+                <div className='relative h-[80vh]  w-screen  ml-16  rounded-md' >
+                    <img className='max-h-full  w-full object-cover' src={contentDetails.backdrop_path !==null ? ORIGINAL_IMAGE_PATH + contentDetails.backdrop_path : ORIGINAL_IMAGE_PATH + contentDetails.poster_path} alt="" />
                     <div className='absolute bottom-3 left-9 flex flex-col gap-2'>
                         <h1 className=' text-white text-4xl '>{contentDetails?.title}</h1>
                         <div className='flex gap-2 text-white'>
@@ -79,15 +85,15 @@ const Details = ({ pageName }) => {
                     <div className='w-11/12 h-fit flex  gap-8 justify-between mt-5 pr-2' >
                         <div className='text-justify w-1/2'>
 
-                           {contentDetails?.overview}
+                            {contentDetails?.overview}
                         </div>
                         <div className='flex flex-col w-1/2 items-center gap-2'>
                             <h2 className='text-2xl font-bold mb-3'>Genre</h2>
                             <div className='flex gap-2 w-full h-fit justify-center flex-wrap '>
                                 {
-                                    contentDetails.genres.map((genre)=>{
-                                        
-                                        return <button className='rounded-lg hover:cursor-pointer hover:bg-slate-500 transition-colors bg-slate-400 h-10 w-fit px-2  '>{genre?.name}</button>
+                                    contentDetails.genres.map((genre, index) => {
+
+                                        return <button key={index} className='rounded-lg hover:cursor-pointer hover:bg-slate-500 transition-colors bg-slate-400 h-10 w-fit px-2  '>{genre?.name}</button>
                                     })
                                 }
 
@@ -103,29 +109,33 @@ const Details = ({ pageName }) => {
 
                 </div>
 
-                <h1 className='ml-24 text-2xl font-bold'>Similar</h1>
+                <h1 className='ml-24 mt-10 text-2xl font-bold'>Similar</h1>
                 <div className='similar ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-0 mr-12 '>
-                    <Link to={`/${pageName}/1234`} className='flex h-80 w-52 flex-col gap-3   '>
-                        <div className='w-full h-4/5 transition-transform hover:border-2 rounded-lg hover:border-white overflow-hidden '>
-                            <Skeleton
-                                height={'256px'}
-                                isLoaded={isLoading}
-                                fadeDuration={5}>
+                    {similar.map((content, index) => (
 
-                                <img className='object-cover    rounded-md h-full w-full' src="/wallpaper1.png" alt="" />
+                        <Link key={index} to={`/${pageName}/${content.id}`} className='flex h-80 w-52 flex-col gap-3 group   '>
+                            <div className='w-full h-4/5  rounded-lg  overflow-hidden '>
+                                <Skeleton
+                                    height={'256px'}
+                                    isLoaded={!isLoading}
+                                    fadeDuration={5}>
 
-                            </Skeleton>
+                                    <img className='object-cover transition-transform duration-300 ease-in-out group-hover:scale-125    rounded-md h-full w-full' src={ SMALL_IMAGE_PATH + content.poster_path} alt="" />
 
-                        </div>
+                                </Skeleton>
 
-
-                        <div>
-                            {!isLoading ? <SkeletonText noOfLines={1} skeletonHeight={4} /> : "Movie Name"}
-
-                        </div>
+                            </div>
 
 
-                    </Link>
+                            <div>
+                                {isLoading ? <SkeletonText noOfLines={1} skeletonHeight={4} /> : content.title || content.name}
+
+                            </div>
+
+
+                        </Link>
+                    ))}
+
 
                 </div>
 

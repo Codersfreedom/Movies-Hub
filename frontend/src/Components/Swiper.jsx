@@ -34,7 +34,7 @@ export default ({sliderContent}) => {
       {sliderContent && sliderContent?.map((content, index) => {
         return(
         <SwiperSlide className='relative w-full h-full' key={index} > 
-        <img src={ORIGINAL_IMAGE_PATH + content?.poster_path} alt={content?.title || content.name} className='w-full h-full object-cover' />
+        <img src={ORIGINAL_IMAGE_PATH + content?.backdrop_path} alt={content?.title || content.name} className='w-full h-full object-cover' title={content.title || content.name} />
         <div className='absolute w-full flex flex-col gap-3 p-4 bottom-0 left-0 justify-start items-start pl-4 text-white bg-black/50' aria-hidden='true'>
           <h1 className='text-4xl'>{content?.title || content?.name}</h1>
           <div className='flex justify-between items-center min-w-full  ' >

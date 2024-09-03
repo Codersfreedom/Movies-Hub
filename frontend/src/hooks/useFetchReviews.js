@@ -9,9 +9,12 @@ const useFetchReviews = () => {
     setIsLoading(true);
     try {
       const content = await axios.get(`/api/v1/${type}/${id}/reviews`);
-     const data = content.data.review;
-     console.log(data)
-    const filteredData =  data.filter((review)=>review.author_details.rating !=null);
+      
+      const data = content.data.review;
+      
+      const filteredData = data.filter(
+        (review) => review.author_details.rating != null
+      );
       setReviews(filteredData);
       setIsLoading(false);
     } catch (error) {
@@ -20,7 +23,7 @@ const useFetchReviews = () => {
       setIsLoading(false);
     }
   };
-  return { fetchReviews, isLoading, reviews}
+  return { fetchReviews, isLoading, reviews };
 };
 
 export default useFetchReviews;

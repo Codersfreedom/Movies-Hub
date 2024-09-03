@@ -6,11 +6,14 @@ import Content from './Pages/Content';
 import History from './Pages/History';
 import Profile from './Pages/Profile';
 import Details from './Pages/Details';
+import Footer from './Components/Footer';
+
 
 function App() {
 
 
   return (
+    <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white'>
     <Routes>
      <Route path="/" element={<Home />} />
      <Route path="/login" element={<Login />} />
@@ -22,8 +25,9 @@ function App() {
      <Route path="/tv/:id" element={<Details pageName={'tv'} />} />
      <Route path="/history" element={<History/>} />
      <Route path="/profile" element={<Profile />} />
-
     </Routes>
+    <Footer />
+    </div>
   )
 }
 

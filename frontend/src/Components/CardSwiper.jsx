@@ -31,6 +31,32 @@ const CardSwiper = ({ reviews }) => {
                 modules={[Navigation]}
                 className="mySwiper"
             >
+                {reviews.length === 0 && (
+                    <SwiperSlide className='h-full '>
+                        <Card maxW='md' className='dark:bg-card-dark h-full w-full  dark:text-white rounded-lg'>
+                            <CardHeader>
+                                <Flex spacing='4'>
+                                    <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                                        <Avatar name='No reviews'  alt="image" />
+
+                                        <Box>
+                                            <h2 className='font-bold'>No reviews</h2>
+                                        </Box>
+                                    </Flex>
+
+                                </Flex>
+                            </CardHeader>
+                            <CardBody className=' overflow-hidden  h-[126px]'>
+
+                                <Text className='text-start '>
+                                    No reviews available
+                                </Text>
+                            </CardBody>
+
+                        </Card>
+                    </SwiperSlide>
+                )}
+
                 {reviews.map((review, index) => {
                     return (
                         <SwiperSlide key={index} className='h-full '>

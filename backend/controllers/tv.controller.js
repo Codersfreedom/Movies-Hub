@@ -49,7 +49,7 @@ export async function getTVSimilar(req, res) {
     const data = await fetchMovies(
       `https://api.themoviedb.org/3/tv/${id}/similar?language=en-US&page=1`
     );
-    res.status(200).json({ success: true, content: data });
+    res.status(200).json({ success: true, content: data.results });
   } catch (error) {
     if (error.message.includes("404")) {
       res.status(404).json({ success: false, message: "404 not found!" });
@@ -58,12 +58,16 @@ export async function getTVSimilar(req, res) {
   }
 }
 export async function getTVByCategory(req, res) {
-  const { category } = req.params;
+}
+
+export async function getReviews(req, res) {
+
+  const { id } = req.params;
   try {
     const data = await fetchMovies(
-      `https://api.themoviedb.org/3/tv/${category}?language=en-US&page=1`
+      `https://api.themoviedb.org/3/tv/${id}/reviews?language=en-US&page=1`
     );
-    res.status(200).json({ success: true, content: data });
+    res.status(200).json({ success: true, review: data.results });
   } catch (error) {
     if (error.message.includes("404")) {
       res.status(404).json({ success: false, message: "404 not found!" });

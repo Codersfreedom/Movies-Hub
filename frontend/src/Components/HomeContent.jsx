@@ -38,7 +38,7 @@ const HomeContent = () => {
 
 
   return (
-    <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white  mt-16 relative '>
+    <div className='h-full w-full  mt-16 relative '>
       <LeftSideBar />
       <div className=' w-11/12 h-[700px]  flex  ml-24'>
 
@@ -56,7 +56,7 @@ const HomeContent = () => {
         {Object.keys(categoryContent).length > 0 && categoryContent?.map((content, index) => (
           <Link key={index} to={`/movie/${content?.id}`} className='flex h-80 w-52 flex-col gap-3 group  '>
             <div className='w-full h-4/5   rounded-lg  overflow-hidden '>
-              <img className='object-cover transition-transform duration-300 ease-in-out group-hover:scale-125 rounded-md h-full w-full' title='' src={`${SMALL_IMAGE_PATH}${content.backdrop_path}`} alt="" />
+              <img className='object-cover transition-transform duration-300 ease-in-out group-hover:scale-125 rounded-md h-full w-full' title='' src={`${SMALL_IMAGE_PATH}${content.poster_path}`} alt={content.title || content.name} />
             </div>
 
 
@@ -83,7 +83,7 @@ const HomeContent = () => {
         )}
 
       </div>
-      <Footer />
+      
     </div>
   )
 }
