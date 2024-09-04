@@ -2,26 +2,26 @@ import axios from "axios";
 import { useState } from "react";
 import { useContentStore } from "../store/UseContentStore";
 
-const useFetchSlider = () => {
+const useFetchTrending = () => {
   const [isLoading, setIsLoading] = useState(false);
 
- const {setSliderData} = useContentStore();
+ const {setTrendingContent} = useContentStore();
 
-  const fetchSlider = async () => {
+  const fetchTrending = async (type) => {
     setIsLoading(true);
     try {
-      const response = await axios.get("/api/v1/trending/all");
+      const response = await axios.get(`/api/v1/trending/${type}`);
       const data = await response.data.content;
-      setSliderData(data);
+      setTrendingContent(data);
       setIsLoading(false);
     } catch (error) {
       console.log(error.message);
-      setSliderData({});
+      setTrendingContent({});
     } finally {
       setIsLoading(false);
     }
   };
-  return { isLoading, fetchSlider };
+  return { isLoading, fetchTrending };
 };
 
-export default useFetchSlider;
+export default useFetchTrending;

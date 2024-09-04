@@ -99,11 +99,11 @@ const CardSwiper = ({ reviews }) => {
                                         },
                                     }}
                                 >
-                                    <Button className=' dark:text-white' flex='1' variant='ghost' leftIcon={<ThumbsUp />}>
+                                    <Button className=' dark:hover:bg-gray-800 dark:text-white ' flex='1'  variant='ghost' leftIcon={<ThumbsUp />}>
                                         Like
                                     </Button>
 
-                                    <Button className='dark:text-white' flex='1' variant='ghost' leftIcon={<Share />}>
+                                    <Button className='dark:hover:bg-gray-800 dark:text-white' flex='1' variant='ghost' leftIcon={<Share />}>
                                         Share
                                     </Button>
                                 </CardFooter>

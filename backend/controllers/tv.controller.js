@@ -1,18 +1,6 @@
 import { fetchMovies } from "../services/TMDB.services.js";
 
-export async function getTrendingTV(req, res) {
-    try {
-      const data = await fetchMovies(
-        "https://api.themoviedb.org/3/trending/tv/day?language=en-US"
-      );
-      const fetchedTv =
-        data.results[Math.floor(Math.random() * data.results?.length)];
-      res.status(200).json({ success: true, content: fetchedTv });
-    } catch (error) {
-      console.log("Error in getTrendingTv controller", error.message);
-      res.status(500).json({ success: false, message: "Internal server error" });
-    }
-  }
+
 export async function getTVTrailer(req, res) {
   const { id } = req.params;
   const data = await fetchMovies(

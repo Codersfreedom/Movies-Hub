@@ -5,26 +5,25 @@ import { Skeleton, SkeletonText } from '@chakra-ui/skeleton'
 
 import LeftSideBar from './LeftSideBar'
 import Slider from './Swiper'
-import Footer from './Footer'
-import useFetchSlider from '../hooks/useFetchSlider'
 import { useContentStore } from '../store/UseContentStore'
 import useFetchCategories from '../hooks/useFetchCategories'
 import { SMALL_IMAGE_PATH } from '../utils/constants'
+import useFetchTrending from '../hooks/useFetchTrending'
 
 
 
 const HomeContent = () => {
 
-  const { fetchSlider } = useFetchSlider();
+  const { fetchTrending } = useFetchTrending();
   const {  fetchCategories } = useFetchCategories()
 
-  const { sliderData, categoryContent } = useContentStore();
+  const { trendingContent, categoryContent } = useContentStore();
 
 
   useEffect(() => {
-    if (Object.keys(sliderData).length == 0) {
+    if (Object.keys(trendingContent).length == 0) {
 
-      fetchSlider();
+      fetchTrending("all");
 
     }
   }, [])
@@ -42,9 +41,9 @@ const HomeContent = () => {
       <LeftSideBar />
       <div className=' w-11/12 h-[700px]  flex  ml-24'>
 
-        {Object.keys(sliderData).length > 0 ? (
+        {Object.keys(trendingContent).length > 0 ? (
 
-          <Slider sliderContent={sliderData} />
+          <Slider sliderContent={trendingContent.slice(0,5)} />
         ) : (
           <Skeleton height='600px' width='1456px' />
         )}

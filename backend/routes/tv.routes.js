@@ -1,9 +1,9 @@
 import express from 'express'
-import { getReviews, getTVByCategory, getTVDetails, getTVSimilar, getTVTrailer, getTrendingTV } from '../controllers/tv.controller.js';
+import { getReviews, getTVByCategory, getTVDetails, getTVSimilar, getTVTrailer } from '../controllers/tv.controller.js';
 
 const router = express.Router();
 
-router.get("/trending",getTrendingTV)
+
 router.get("/:id/trailer",getTVTrailer)
 router.get("/:id/details",getTVDetails)
 router.get("/:id/similar",getTVSimilar)

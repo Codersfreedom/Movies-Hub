@@ -25,7 +25,7 @@ const Details = ({ pageName }) => {
     const { contentDetails } = useContentStore();
 
     useEffect(() => {
-        getDetails(id);
+        getDetails(id,pageName);
         fetchReviews(id, pageName);
         fetchSimilar(id, pageName);
     }, [id])
@@ -35,7 +35,7 @@ const Details = ({ pageName }) => {
 
 
 
-    if (Object.keys(contentDetails).length == 0 || isLoading) {
+    if (Object.keys(contentDetails).length == 0 || isLoading ) {
         return (
             <div className='h-screen w-screen bg-black'>
 
@@ -43,8 +43,9 @@ const Details = ({ pageName }) => {
         )
     }
 
-    console.log("Similar:",similar);
-    console.log("Reviews:",reviews)
+    // console.log("Similar:",similar);
+    // console.log("Reviews:",reviews)
+    console.log("Details: ",contentDetails)
 
     return (
         <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white  mt-16 relative mx-auto'>
@@ -56,9 +57,9 @@ const Details = ({ pageName }) => {
                 <div className='relative h-[80vh]  w-screen  ml-16  rounded-md' >
                     <img className='max-h-full  w-full object-cover' src={contentDetails.backdrop_path !==null ? ORIGINAL_IMAGE_PATH + contentDetails.backdrop_path : ORIGINAL_IMAGE_PATH + contentDetails.poster_path} alt="" />
                     <div className='absolute bottom-3 left-9 flex flex-col gap-2'>
-                        <h1 className=' text-white text-4xl '>{contentDetails?.title}</h1>
+                        <h1 className=' text-white text-4xl '>{contentDetails?.title || contentDetails.name}</h1>
                         <div className='flex gap-2 text-white'>
-                            <h2 >{contentDetails.genres[0].name}</h2> <span>●</span> <span>{contentDetails.release_date.split("-")[0] || contentDetails.first_air_date.split("-")[0]}</span> <span>●</span> <span>{contentDetails.adult ? "18+" : "PG-13"}</span>
+                            <h2 >{contentDetails.genres[0].name}</h2> <span>●</span> <span>{ contentDetails.release_date ? contentDetails.release_date.split("-")[0] : contentDetails.first_air_date.split("-")[0]}</span> <span>●</span> <span>{contentDetails.adult ? "18+" : "PG-13"}</span>
 
                         </div>
                     </div>

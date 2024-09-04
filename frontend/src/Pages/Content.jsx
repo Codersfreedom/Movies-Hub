@@ -2,10 +2,31 @@ import { Skeleton, SkeletonText } from "@chakra-ui/skeleton"
 import Header from '../Components/Header'
 import LeftSideBar from '../Components/LeftSideBar'
 import { Link } from 'react-router-dom'
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useContentStore } from "../store/UseContentStore"
+import useFetchTrending from "../hooks/useFetchTrending"
+import { SMALL_IMAGE_PATH } from "../utils/constants"
 
 const Content = ({ pageName }) => {
-    const [isLoading,setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
+    const [type, setType] = useState("all");
+
+    const { trendingContent } = useContentStore();
+    const { fetchTrending } = useFetchTrending();
+
+    useEffect(() => {
+        fetchTrending(type);
+    }, [type])
+
+    if (Object.keys(trendingContent).length == 0 ) {
+        return (
+            <div className='h-screen w-screen bg-black'>
+
+            </div>
+        )
+    }
+
+    // console.log(trendingContent)
     return (
         <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white  mt-16 relative mx-auto'>
             <Header />
@@ -22,9 +43,9 @@ const Content = ({ pageName }) => {
 
                     {pageName === 'trending' && (
                         <>
-                            <button className='w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-slate-500 transition-all rounded-2xl'>All</button>
-                            <button className='w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-slate-500 transition-all rounded-2xl'>Movies</button>
-                            <button className='w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-slate-500 transition-all rounded-2xl' >Tv Shows</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-slate-500 transition-all  rounded-2xl ${type ==="all" ? "bg-purple-600 text-white":"bg-slate-400"}`} onClick={() => setType("all")}>All</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-purple-600 transition-all rounded-2xl ${type ==="movie" ? "bg-purple-600 text-white":"bg-slate-400"}`} onClick={() => setType("movie")}>Movies</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-purple-600 transition-all rounded-2xl ${type ==="tv" ? "bg-purple-600 text-white":"bg-slate-400"}`} onClick={() => setType("tv")} >Tv Shows</button>
                         </>)
                     }
 
@@ -49,82 +70,40 @@ const Content = ({ pageName }) => {
 
                 <div className='min-w-4/5  ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-0 mr-12 '>
 
-                    <Link to={`/${pageName}/1234`} className='flex h-80 w-52 flex-col gap-3   '>
-                            <div className='w-full h-4/5 transition-transform hover:border-2 rounded-lg hover:border-white overflow-hidden '>
-                        <Skeleton
-                            height={'256px'}
-                            isLoaded={isLoading}
-                            fadeDuration={5}>
+                    {trendingContent && trendingContent.map((content) => (
+                        <Link to={`/${content.media_type}/${content.id}`} className='flex h-80 w-52 flex-col gap-3 group  '>
+                            <div className='w-full h-4/5  rounded-lg hover:border-white overflow-hidden '>
 
-                                <img className='object-cover    rounded-md h-full w-full' src="wallpaper1.png" alt="" />
 
-                        </Skeleton>
+                                <img className='object-cover transition-transform duration-300 ease-in-out group-hover:scale-125    rounded-md h-full w-full' src={SMALL_IMAGE_PATH + content.poster_path} alt="poster" />
+
 
                             </div>
-                            
+
 
                             <div>
-                                {!isLoading ? <SkeletonText noOfLines={1} skeletonHeight={4} /> : "Movie Name" }
-                                
+                                {content.title || content.name}
+
                             </div>
-                            
-                            
-                    </Link>
 
-                    <Link to="/" className='flex h-80 w-52 flex-col gap-3 '>
-                        <div className='w-full h-4/5'>
-                            <img className='object-cover rounded-md h-full w-full' src="wallpaper1.png" alt="" />
 
-                        </div>
-                        <div>
-                            Movie name
-                        </div>
-                    </Link>
-                    <Link to="/" className='flex h-80 w-52 flex-col gap-3 '>
-                        <div className='w-full h-4/5'>
-                            <img className='object-cover rounded-md h-full w-full' src="wallpaper1.png" alt="" />
+                        </Link>
 
-                        </div>
-                        <div>
-                            Movie name
-                        </div>
-                    </Link>
-                    <Link to="/" className='flex h-80 w-52 flex-col gap-3 '>
-                        <div className='w-full h-4/5'>
-                            <img className='object-cover rounded-md h-full w-full' src="wallpaper1.png" alt="" />
+                    ))}
 
-                        </div>
-                        <div>
-                            Movie name
-                        </div>
-                    </Link>
-                    <Link to="/" className='flex h-80 w-52 flex-col gap-3 '>
-                        <div className='w-full h-4/5'>
-                            <img className='object-cover rounded-md h-full w-full' src="wallpaper1.png" alt="" />
+                    {Object.keys(trendingContent).length == 0 && (
+                        <div className='flex flex-col gap-3' >
+                            <Skeleton
+                                height='256px'
+                                width='200px'
 
-                        </div>
-                        <div>
-                            Movie name
-                        </div>
-                    </Link>
-                    <Link to="/" className='flex h-80 w-52 flex-col gap-3 '>
-                        <div className='w-full h-4/5'>
-                            <img className='object-cover rounded-md h-full w-full' src="wallpaper1.png" alt="" />
+                                fadeDuration={5}>
 
-                        </div>
-                        <div>
-                            Movie name
-                        </div>
-                    </Link>
-                    <Link to="/" className='flex h-80 w-52 flex-col gap-3 '>
-                        <div className='w-full h-4/5'>
-                            <img className='object-cover rounded-md h-full w-full' src="wallpaper1.png" alt="" />
+                            </Skeleton>
+                            <SkeletonText noOfLines={1} width={200} skeletonHeight={4} />
+                        </div >
+                    )}
 
-                        </div>
-                        <div>
-                            Movie name
-                        </div>
-                    </Link>
                 </div>
 
             </div>

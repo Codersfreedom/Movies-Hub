@@ -6,10 +6,10 @@ const useGetDetails = () => {
   const { setContentDetails } = useContentStore();
     const[isLoading,setIsLoading] = useState(false);
 
-  const getDetails = async (id) => {
+  const getDetails = async (id,type) => {
     setIsLoading(true);
     try {
-      const content = await axios.get(`/api/v1/movie/${id}/details`);
+      const content = await axios.get(`/api/v1/${type}/${id}/details`);
       
       setContentDetails(content.data.details);
       setIsLoading(false);

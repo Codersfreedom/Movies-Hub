@@ -1,8 +1,8 @@
 import {create} from 'zustand';
 
 export const useContentStore = create((set)=>({
-    sliderData:{},
-    setSliderData: (data) => set({sliderData:data}),
+    trendingContent:{},
+    setTrendingContent: (data) => set({trendingContent:data}),
     categoryContent:{},
     setCategoryContent: (data) =>set({categoryContent:data}),
     contentDetails:{},
