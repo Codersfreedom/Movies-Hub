@@ -43,9 +43,9 @@ const Details = ({ pageName }) => {
         )
     }
 
-    // console.log("Similar:",similar);
+    console.log("Similar:",similar);
     // console.log("Reviews:",reviews)
-    console.log("Details: ",contentDetails)
+    // console.log("Details: ",contentDetails)
 
     return (
         <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white  mt-16 relative mx-auto'>
@@ -55,7 +55,7 @@ const Details = ({ pageName }) => {
             <div className='w-full min-h-full flex flex-col '>
                 {/* Banner */}
                 <div className='relative h-[80vh]  w-screen  ml-16  rounded-md' >
-                    <img className='max-h-full  w-full object-cover' src={contentDetails.backdrop_path !==null ? ORIGINAL_IMAGE_PATH + contentDetails.backdrop_path : ORIGINAL_IMAGE_PATH + contentDetails.poster_path} alt="" />
+                    <img className='max-h-full  w-full object-cover' src={contentDetails.backdrop_path !==null ? ORIGINAL_IMAGE_PATH + contentDetails.backdrop_path : ORIGINAL_IMAGE_PATH + contentDetails.poster_path} alt='poster' />
                     <div className='absolute bottom-3 left-9 flex flex-col gap-2'>
                         <h1 className=' text-white text-4xl '>{contentDetails?.title || contentDetails.name}</h1>
                         <div className='flex gap-2 text-white'>
@@ -121,7 +121,7 @@ const Details = ({ pageName }) => {
                                     isLoaded={!isLoading}
                                     fadeDuration={5}>
 
-                                    <img className='object-cover transition-transform duration-300 ease-in-out group-hover:scale-125    rounded-md h-full w-full' src={ SMALL_IMAGE_PATH + content.poster_path} alt="" />
+                                    <img className='object-cover transition-transform duration-300 ease-in-out group-hover:scale-125    rounded-md h-full w-full' src={ SMALL_IMAGE_PATH + content.poster_path || SMALL_IMAGE_PATH + content.backdrop_path} alt="" />
 
                                 </Skeleton>
 

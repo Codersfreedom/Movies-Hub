@@ -3,15 +3,16 @@ import { useState } from "react";
 import { useContentStore } from "../store/UseContentStore";
 
 const useFetchCategories = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const { setCategoryContent } = useContentStore();
+  
+  const {setIsLoading, setCategoryContent } = useContentStore();
 
-  const fetchCategories = async (category = "now_playing") => {
+  const fetchCategories = async (category = "now_playing",type) => {
     setIsLoading(true);
     try {
-      const content = await axios.get(`/api/v1/movie/${category}`);
+      const content = await axios.get(`/api/v1/${type}/${category}`);
+      
       setCategoryContent(content.data.category.results);
-      setIsLoading(false);
+      
     } catch (error) {
       console.log(error.message);
       setCategoryContent({});
@@ -19,7 +20,7 @@ const useFetchCategories = () => {
       setIsLoading(false);
     }
   };
-  return {isLoading,fetchCategories};
+  return {fetchCategories};
 };
 
 export default useFetchCategories;

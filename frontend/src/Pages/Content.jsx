@@ -1,4 +1,3 @@
-import { Skeleton, SkeletonText } from "@chakra-ui/skeleton"
 import Header from '../Components/Header'
 import LeftSideBar from '../Components/LeftSideBar'
 
@@ -6,52 +5,55 @@ import { useEffect, useState } from "react"
 import { useContentStore } from "../store/UseContentStore"
 import useFetchTrending from "../hooks/useFetchTrending"
 
-import useFetchGenres from "../hooks/useFetchGenres"
+
 import Card from "../Components/Card"
+import useFetchCategories from "../hooks/useFetchCategories"
+import { Skeleton, SkeletonText } from '@chakra-ui/skeleton'
 
 
 
 const Content = ({ pageName }) => {
 
     const [type, setType] = useState("all");
-    const [genre, setGenre] = useState("action");
+    const [genre, setGenre] = useState("now_playing");
 
-    const { trendingContent, movieGenres } = useContentStore();
+    const { isLoading, trendingContent, categoryContent } = useContentStore();
 
     const { fetchTrending } = useFetchTrending();
-    const { fetchGenres, isLoading } = useFetchGenres()
+    const { fetchCategories } = useFetchCategories()
 
     useEffect(() => {
-        if (pageName === "trending" && Object.keys(trendingContent).length == 0) {
-            fetchTrending(type);
+        if(pageName =="trending"){
+           
 
-        }
-        if (pageName === "movie" || pageName === "tv" && Object.keys(movieGenres).length == 0) {
-            fetchGenres(pageName)
+            fetchTrending(type);
         }
     }, [type])
 
-    
-    
-    if (Object.keys(trendingContent).length == 0 && pageName =="trending"  ) {
+
+    useEffect(() => {
+        if(pageName =="movie"){
+            
+            fetchCategories(genre, pageName);
+
+        }
+    }, [genre])
+
+  
+
+    if (isLoading) {
         return (
             <div className='h-screen w-screen bg-black'>
 
             </div>
         )
     }
-    
-    if (Object.keys(movieGenres).length == 0 && pageName =="movie" ) {
-        return (
-            <div className='h-screen w-screen bg-black'>
 
-            </div>
-        )
-    }
-    
-    
-    
-    
+
+
+
+
+
 
     // console.log(trendingContent)
     return (
@@ -76,9 +78,15 @@ const Content = ({ pageName }) => {
                         </>)
                     }
 
-                    {pageName === 'movie' && movieGenres.map((genre)=>(
-                        <button key={genre.id} className={`w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-purple-600 transition-all rounded-2xl ${type === "tv" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setType("tv")} >{genre.name}</button>
-                    ))}
+                    {pageName === 'movie' && (
+                        <>
+
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "now_playing" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("now_playing")} > Now Playing</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "popular" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("popular")} > Popular</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "top_rated" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("top_rated")} > Top Rated</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "upcomming" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("upcoming")} > Upcoming</button>
+                        </>
+                    )}
 
                     {pageName === 'tv' &&
                         <>
@@ -94,23 +102,17 @@ const Content = ({ pageName }) => {
 
                 <div className='min-w-4/5  ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-0 mr-12 '>
 
-                    {pageName ==="trending" && trendingContent.map((content) => (
-                        <Card key={content.id} content={content} />
+                    {pageName === "trending" && trendingContent.map((content) => (
+                        <Card key={content.id} content={content} type={pageName} />
 
                     ))}
 
-                    {Object.keys(trendingContent).length == 0 && (
-                        <div className='flex flex-col gap-3' >
-                            <Skeleton
-                                height='256px'
-                                width='200px'
 
-                                fadeDuration={5}>
+                    {pageName === "movie" && categoryContent.map((content) => (
+                        <Card key={content.id} content={content} type={pageName} />
 
-                            </Skeleton>
-                            <SkeletonText noOfLines={1} width={200} skeletonHeight={4} />
-                        </div >
-                    )}
+                    ))}
+
 
                 </div>
 
