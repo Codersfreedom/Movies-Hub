@@ -1,30 +1,57 @@
 import { Skeleton, SkeletonText } from "@chakra-ui/skeleton"
 import Header from '../Components/Header'
 import LeftSideBar from '../Components/LeftSideBar'
-import { Link } from 'react-router-dom'
+
 import { useEffect, useState } from "react"
 import { useContentStore } from "../store/UseContentStore"
 import useFetchTrending from "../hooks/useFetchTrending"
-import { SMALL_IMAGE_PATH } from "../utils/constants"
+
+import useFetchGenres from "../hooks/useFetchGenres"
+import Card from "../Components/Card"
+
+
 
 const Content = ({ pageName }) => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [type, setType] = useState("all");
 
-    const { trendingContent } = useContentStore();
+    const [type, setType] = useState("all");
+    const [genre, setGenre] = useState("action");
+
+    const { trendingContent, movieGenres } = useContentStore();
+
     const { fetchTrending } = useFetchTrending();
+    const { fetchGenres, isLoading } = useFetchGenres()
 
     useEffect(() => {
-        fetchTrending(type);
+        if (pageName === "trending" && Object.keys(trendingContent).length == 0) {
+            fetchTrending(type);
+
+        }
+        if (pageName === "movie" || pageName === "tv" && Object.keys(movieGenres).length == 0) {
+            fetchGenres(pageName)
+        }
     }, [type])
 
-    if (Object.keys(trendingContent).length == 0 ) {
+    
+    
+    if (Object.keys(trendingContent).length == 0 && pageName =="trending"  ) {
         return (
             <div className='h-screen w-screen bg-black'>
 
             </div>
         )
     }
+    
+    if (Object.keys(movieGenres).length == 0 && pageName =="movie" ) {
+        return (
+            <div className='h-screen w-screen bg-black'>
+
+            </div>
+        )
+    }
+    
+    
+    
+    
 
     // console.log(trendingContent)
     return (
@@ -43,18 +70,15 @@ const Content = ({ pageName }) => {
 
                     {pageName === 'trending' && (
                         <>
-                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-slate-500 transition-all  rounded-2xl ${type ==="all" ? "bg-purple-600 text-white":"bg-slate-400"}`} onClick={() => setType("all")}>All</button>
-                            <button className={`w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-purple-600 transition-all rounded-2xl ${type ==="movie" ? "bg-purple-600 text-white":"bg-slate-400"}`} onClick={() => setType("movie")}>Movies</button>
-                            <button className={`w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-purple-600 transition-all rounded-2xl ${type ==="tv" ? "bg-purple-600 text-white":"bg-slate-400"}`} onClick={() => setType("tv")} >Tv Shows</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all  rounded-2xl ${type === "all" ? "bg-purple-600 " : "bg-slate-400"}`} onClick={() => setType("all")}>All</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${type === "movie" ? "bg-purple-600 " : "bg-slate-400"}`} onClick={() => setType("movie")}>Movies</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${type === "tv" ? "bg-purple-600 " : "bg-slate-400"}`} onClick={() => setType("tv")} >Tv Shows</button>
                         </>)
                     }
 
-                    {pageName === 'movies' && <>
-                        <button className='w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-slate-500 transition-all rounded-2xl'>Now Playing</button>
-                        <button className='w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-slate-500 transition-all rounded-2xl' >Popular</button>
-                        <button className='w-32 h-10 text-white  cursor-pointer bg-slate-600 hover:bg-slate-500 transition-all rounded-2xl'>Top Rated</button>
-                        <button className='w-32 h-10 text-white  cursor-pointer bg-slate-600 hover:bg-slate-500 transition-all rounded-2xl'>Upcoming</button>
-                    </>}
+                    {pageName === 'movie' && movieGenres.map((genre)=>(
+                        <button key={genre.id} className={`w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-purple-600 transition-all rounded-2xl ${type === "tv" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setType("tv")} >{genre.name}</button>
+                    ))}
 
                     {pageName === 'tv' &&
                         <>
@@ -70,24 +94,8 @@ const Content = ({ pageName }) => {
 
                 <div className='min-w-4/5  ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-0 mr-12 '>
 
-                    {trendingContent && trendingContent.map((content) => (
-                        <Link to={`/${content.media_type}/${content.id}`} className='flex h-80 w-52 flex-col gap-3 group  '>
-                            <div className='w-full h-4/5  rounded-lg hover:border-white overflow-hidden '>
-
-
-                                <img className='object-cover transition-transform duration-300 ease-in-out group-hover:scale-125    rounded-md h-full w-full' src={SMALL_IMAGE_PATH + content.poster_path} alt="poster" />
-
-
-                            </div>
-
-
-                            <div>
-                                {content.title || content.name}
-
-                            </div>
-
-
-                        </Link>
+                    {pageName ==="trending" && trendingContent.map((content) => (
+                        <Card key={content.id} content={content} />
 
                     ))}
 

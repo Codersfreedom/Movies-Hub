@@ -63,3 +63,18 @@ export async function getReviews(req, res) {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 }
+
+export async function getTVGenres(req, res) {
+
+  try {
+    const data = await fetchMovies(
+      'https://api.themoviedb.org/3/genre/tv/list?language=en'
+    );
+    res.status(200).json({ success: true, genres: data });
+  } catch (error) {
+    if (error.message.includes("404")) {
+      res.status(404).json({ success: false, message: "404 not found!" });
+    }
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+}

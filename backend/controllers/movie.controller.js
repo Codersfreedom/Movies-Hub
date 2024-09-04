@@ -1,7 +1,5 @@
 import { fetchMovies } from "../services/TMDB.services.js";
 
-
-
 export async function getTrailer(req, res) {
   try {
     const { id } = req.params;
@@ -62,13 +60,25 @@ export async function getMoviesByCategory(req, res) {
 
 export async function getReviews(req, res) {
   const { id } = req.params;
-  console.log(id)
+  console.log(id);
 
   try {
     const data = await fetchMovies(
       `https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1`
     );
     res.status(200).json({ success: true, review: data.results });
+  } catch (error) {
+    console.log("Error in movies getReviews movie controller", error.message);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+}
+
+export async function getGenres(req, res) {
+  try {
+    const data = await fetchMovies(
+      "https://api.themoviedb.org/3/genre/movie/list?language=en"
+    );
+    res.status(200).json({ success: true, genres: data });
   } catch (error) {
     console.log("Error in movies getReviews movie controller", error.message);
     res.status(500).json({ success: false, message: "Internal server error" });
