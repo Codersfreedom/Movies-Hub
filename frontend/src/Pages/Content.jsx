@@ -23,7 +23,7 @@ const Content = ({ pageName }) => {
     const { fetchCategories } = useFetchCategories()
 
     useEffect(() => {
-        if(pageName =="trending"){
+        if(pageName =="trending"&& Object.keys(trendingContent).length !=0 && type != "all"){
            
 
             fetchTrending(type);
@@ -43,9 +43,13 @@ const Content = ({ pageName }) => {
 
     if (isLoading) {
         return (
-            <div className='h-screen w-screen bg-black'>
-
+            <div class="loader-container">
+            <div class="bouncing-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
+        </div>
         )
     }
 
@@ -84,7 +88,7 @@ const Content = ({ pageName }) => {
                             <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "now_playing" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("now_playing")} > Now Playing</button>
                             <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "popular" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("popular")} > Popular</button>
                             <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "top_rated" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("top_rated")} > Top Rated</button>
-                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "upcomming" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("upcoming")} > Upcoming</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "upcoming" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("upcoming")} > Upcoming</button>
                         </>
                     )}
 
@@ -103,7 +107,7 @@ const Content = ({ pageName }) => {
                 <div className='min-w-4/5  ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-0 mr-12 '>
 
                     {pageName === "trending" && trendingContent.map((content) => (
-                        <Card key={content.id} content={content} type={pageName} />
+                        <Card key={content.id} content={content} type={content.media_type} />
 
                     ))}
 

@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
+import { useContentStore } from "../store/UseContentStore";
 
 const useFetchReviews = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const {setIsLoading} = useContentStore();
   const [reviews, setReviews] = useState([]);
 
   const fetchReviews = async (id, type) => {
@@ -16,14 +17,15 @@ const useFetchReviews = () => {
         (review) => review.author_details.rating != null
       );
       setReviews(filteredData);
-      setIsLoading(false);
+      
     } catch (error) {
       console.log(error.message);
+      setReviews([]);
     } finally {
       setIsLoading(false);
     }
   };
-  return { fetchReviews, isLoading, reviews };
+  return { fetchReviews, reviews };
 };
 
 export default useFetchReviews;

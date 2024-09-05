@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useContentStore } from "../store/UseContentStore";
-import { useState } from "react";
+
 
 const useGetDetails = () => {
-  const { setContentDetails } = useContentStore();
-    const[isLoading,setIsLoading] = useState(false);
+  const {setIsLoading, setContentDetails } = useContentStore();
+    
 
   const getDetails = async (id,type) => {
     setIsLoading(true);
@@ -12,7 +12,7 @@ const useGetDetails = () => {
       const content = await axios.get(`/api/v1/${type}/${id}/details`);
       
       setContentDetails(content.data.details);
-      setIsLoading(false);
+      
     } catch (error) {
       console.log(error.message);
       setContentDetails({});
@@ -21,7 +21,7 @@ const useGetDetails = () => {
         setIsLoading(false);
     }
   };
-  return{getDetails,isLoading};
+  return{getDetails};
 };
 
 export default useGetDetails;
