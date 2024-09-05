@@ -46,6 +46,16 @@ export async function getTVSimilar(req, res) {
   }
 }
 export async function getTVByCategory(req, res) {
+  const { category } = req.params;
+  console.log(category);
+  try {
+    const data = await fetchMovies(
+      `https://api.themoviedb.org/3/tv/${category}?language=en-US&page=1`
+    );
+    res.status(200).json({ success: true, category: data });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
 }
 
 export async function getReviews(req, res) {

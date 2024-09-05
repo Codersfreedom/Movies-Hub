@@ -6,11 +6,11 @@ const useFetchCategories = () => {
   
   const {setIsLoading, setCategoryContent } = useContentStore();
 
-  const fetchCategories = async (category = "now_playing",type) => {
+  const fetchCategories = async (category,type) => {
     setIsLoading(true);
     try {
       const content = await axios.get(`/api/v1/${type}/${category}`);
-      
+      console.log(content)
       setCategoryContent(content.data.category.results);
       
     } catch (error) {

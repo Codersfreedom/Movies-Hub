@@ -15,7 +15,8 @@ import { Skeleton, SkeletonText } from '@chakra-ui/skeleton'
 const Content = ({ pageName }) => {
 
     const [type, setType] = useState("all");
-    const [genre, setGenre] = useState("now_playing");
+    const [movieGenre, setMovieGenre] = useState("now_playing");
+    const [tvGenre, setTvGenre] = useState("airing_today")
 
     const { isLoading, trendingContent, categoryContent } = useContentStore();
 
@@ -23,8 +24,8 @@ const Content = ({ pageName }) => {
     const { fetchCategories } = useFetchCategories()
 
     useEffect(() => {
-        if(pageName =="trending"&& Object.keys(trendingContent).length !=0 && type != "all"){
-           
+        if (pageName == "trending" && Object.keys(trendingContent).length != 0 && type != "all") {
+
 
             fetchTrending(type);
         }
@@ -32,34 +33,33 @@ const Content = ({ pageName }) => {
 
 
     useEffect(() => {
-        if(pageName =="movie"){
-            
-            fetchCategories(genre, pageName);
+        if (pageName == "movie") {
+
+            fetchCategories(movieGenre, pageName);
 
         }
-    }, [genre])
+    }, [movieGenre])
 
-  
+    useEffect(() => {
+        if (pageName == "tv") {
+            fetchCategories(tvGenre, pageName)
+        }
+    }, [tvGenre])
+
 
     if (isLoading) {
         return (
-            <div class="loader-container">
-            <div class="bouncing-dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+            <div className="loader-container">
+                <div className="bouncing-dots">
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                </div>
             </div>
-        </div>
         )
     }
 
 
-
-
-
-
-
-    // console.log(trendingContent)
     return (
         <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white  mt-16 relative mx-auto'>
             <Header />
@@ -85,19 +85,19 @@ const Content = ({ pageName }) => {
                     {pageName === 'movie' && (
                         <>
 
-                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "now_playing" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("now_playing")} > Now Playing</button>
-                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "popular" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("popular")} > Popular</button>
-                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "top_rated" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("top_rated")} > Top Rated</button>
-                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${genre === "upcoming" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setGenre("upcoming")} > Upcoming</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${movieGenre === "now_playing" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setMovieGenre("now_playing")} > Now Playing</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${movieGenre === "popular" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setMovieGenre("popular")} > Popular</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${movieGenre === "top_rated" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setMovieGenre("top_rated")} > Top Rated</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${movieGenre === "upcoming" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setMovieGenre("upcoming")} > Upcoming</button>
                         </>
                     )}
 
                     {pageName === 'tv' &&
                         <>
-                            <button className='w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-slate-500 transition-all rounded-2xl'>Airing Today</button>
-                            <button className='w-32 h-10 text-white cursor-pointer bg-slate-600 hover:bg-slate-500 transition-all rounded-2xl' >On The Air</button>
-                            <button className='w-32 h-10 text-white  cursor-pointer bg-slate-600 hover:bg-slate-500 transition-all rounded-2xl'>Popular</button>
-                            <button className='w-32 h-10 text-white  cursor-pointer bg-slate-600 hover:bg-slate-500 transition-all rounded-2xl'>Top Rated</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${tvGenre === "airing_today" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setTvGenre("airing_today")} > Airing Today</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${tvGenre === "on_the_air" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setTvGenre("on_the_air")} > On The Air</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${tvGenre === "popular" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setTvGenre("popular")} > Popular</button>
+                            <button className={`w-32 h-10 text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${tvGenre === "top_rated" ? "bg-purple-600 text-white" : "bg-slate-400"}`} onClick={() => setTvGenre("top_rated")} > Top Rated</button>
                         </>
                     }
 
@@ -106,17 +106,20 @@ const Content = ({ pageName }) => {
 
                 <div className='min-w-4/5  ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-0 mr-12 '>
 
-                    {pageName === "trending" && trendingContent.map((content) => (
+                    { Object.keys(trendingContent).length >0 && pageName === "trending" && trendingContent.map((content) => (
                         <Card key={content.id} content={content} type={content.media_type} />
 
                     ))}
 
 
-                    {pageName === "movie" && categoryContent.map((content) => (
+                    { Object.keys(categoryContent).length >0 && pageName === "movie" && categoryContent.map((content) => (
                         <Card key={content.id} content={content} type={pageName} />
 
                     ))}
 
+                    { Object.keys(categoryContent).length >0 && pageName === "tv" && categoryContent.map((content)=>(
+                        <Card key={content.id} content={content} type={pageName} />
+                    ))}
 
                 </div>
 

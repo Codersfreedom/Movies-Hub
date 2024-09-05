@@ -30,10 +30,10 @@ const HomeContent = () => {
 
     //TODO: Implement recommendations section here instate of categorycontent
   useEffect(() => {
-    if (Object.keys(categoryContent).length == 0) {
+    
 
       fetchCategories("now_playing","movie");
-    }
+    
   }, [])
 
 

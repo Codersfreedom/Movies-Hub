@@ -37,11 +37,11 @@ const Details = ({ pageName }) => {
 
     if (Object.keys(contentDetails).length == 0 || isLoading) {
         return (
-            <div class="loader-container">
-                <div class="bouncing-dots">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
+            <div className="loader-container">
+                <div className="bouncing-dots">
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
                 </div>
             </div>
         )
@@ -111,7 +111,7 @@ const Details = ({ pageName }) => {
                 </div>
                 {/* Similar content */}
                 <h1 className='ml-24 mt-10 text-2xl font-bold'>Similar</h1>
-                <div className='similar ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-0 mr-12 '>
+                <div className='similar ml-24 mt-6 sm:grid-cols-2 grid md:grid-cols-3 lg:grid-cols-5  gap-0 mr-12 '>
                     {similar.map((content, index) => (
 
                         <Link key={index} to={`/${pageName}/${content.id}`} className='flex h-80 w-52 flex-col gap-3 group   '>
