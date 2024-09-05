@@ -22,7 +22,7 @@ const HomeContent = () => {
 
   useEffect(() => {
     if (Object.keys(trendingContent).length == 0) {
-
+      
       fetchTrending("all");
 
     }
@@ -30,17 +30,19 @@ const HomeContent = () => {
 
     //TODO: Implement recommendations section here instate of categorycontent
   useEffect(() => {
-    
+    if(Object.keys(fetchCategories).length ==0){
 
       fetchCategories("now_playing","movie");
+    }
+
     
   }, [])
 
 
   return (
-    <div className='h-full w-full  mt-16 relative '>
+    <div className='h-full w-full mt-16 relative '>
       <LeftSideBar />
-      <div className=' w-11/12 h-[700px]  flex  ml-24'>
+      <div className=' w-11/12 h-[80vh] md:pr-10 lg:pr-0  flex  ml-24'>
 
         {Object.keys(trendingContent).length > 0 ? (
 

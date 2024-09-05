@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
 import { Moon, Search, Sun, User } from 'lucide-react';
 import { Link } from 'react-router-dom'
+import { useAuthStore } from '../store/useAuthSotre';
+import useLogout from '../hooks/useLogout';
 
 
 const Header = ({isAuthPage}) => {
+
+  const {authUser} = useAuthStore();
+  const {logout} = useLogout();
 
   const [dark,setDark] = useState(false);
 
   const toggleDarkMode =()=>{
     setDark(!dark);
     document.body.classList.toggle('dark');
+  }
+  const handleLogout = ()=>{
+    logout();
   }
 
   return (
@@ -36,9 +44,13 @@ const Header = ({isAuthPage}) => {
       </div>)}
 
       <div className='flex justify-center gap-2 items-center'>
-        <Link to="/login">
+       
+        {!authUser ? (<Link to="/login">
           <button className='bg-white dark:text-white dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border px-3 py-2 font-medium rounded-md'>Login</button>
-        </Link>
+        </Link>):
+        <button className='bg-white dark:text-white dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border px-3 py-2 font-medium rounded-md' onClick={handleLogout}>Logout</button>
+
+        }
 
         <div className='rounded-md  dark:text-white dark:bg-gray-600 border-1 dark:border-global-border-dark border-global-border h-10 w-10  flex justify-center items-center cursor-pointer  bg-white'
         onClick={toggleDarkMode}

@@ -1,5 +1,6 @@
 import express from "express";
 import { getDetails, getGenres, getMoviesByCategory, getReviews, getSimilar, getTrailer } from "../controllers/movie.controller.js";
+import { protectRoute } from "../middleware/protectRoute.js";
 
 const router = express.Router();
 
