@@ -60,8 +60,15 @@ const Content = ({ pageName }) => {
             </div>
         )
     }
+    
+    let imageURL;
 
-    const imageURL = categoryContent =="undefined" ? ORIGINAL_IMAGE_PATH + trendingContent[Math.floor(Math.random()*trendingContent.length)]?.backdrop_path : ORIGINAL_IMAGE_PATH + categoryContent[Math.floor(Math.random()*categoryContent.length)]?.backdrop_path
+    if(pageName ==='trending'){
+       imageURL = trendingContent[Math.floor(Math.random()*trendingContent.length)]?.backdrop_path;
+    }else{
+      imageURL =  categoryContent[Math.floor(Math.random()*categoryContent.length)]?.backdrop_path;
+    }
+    
 
     return (
         <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white  mt-16 relative mx-auto'>
@@ -72,7 +79,7 @@ const Content = ({ pageName }) => {
 
                 {!isLoading ? (
                     <div className='relative h-96  w-full  ml-16 poster  rounded-md' >
-                    <img className='h-full w-full object-cover' src={  imageURL  } alt="" />
+                    <img className='h-full w-full object-cover' src={ORIGINAL_IMAGE_PATH +  imageURL  } alt="" />
                     <h1 className='absolute text-white text-4xl bottom-3 left-9'>{pageName.charAt(0).toUpperCase() + pageName.substring(1)}</h1>
                 </div>
                 ):(

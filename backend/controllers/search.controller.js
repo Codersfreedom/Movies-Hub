@@ -41,7 +41,7 @@ export const searchMovie = async (req, res) => {
     );
 
     if (response.results.length == 0) {
-      res.status(404).send(null);
+     return res.status(404).send(null);
     }
     await User.findByIdAndUpdate(req.user._id, {
       $push: {

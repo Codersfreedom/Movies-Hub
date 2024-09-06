@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Skeleton, SkeletonText } from '@chakra-ui/skeleton'
@@ -12,41 +12,42 @@ import useFetchTrending from '../hooks/useFetchTrending'
 
 
 
+
 const HomeContent = () => {
 
   const { fetchTrending } = useFetchTrending();
-  const {  fetchCategories } = useFetchCategories()
+  const { fetchCategories } = useFetchCategories()
 
   const { trendingContent, categoryContent } = useContentStore();
 
 
   useEffect(() => {
     if (Object.keys(trendingContent).length == 0) {
-      
+
       fetchTrending("all");
 
     }
   }, [])
 
-    //TODO: Implement recommendations section here instate of categorycontent
+  //TODO: Implement recommendations section here instate of categorycontent
   useEffect(() => {
-    if(Object.keys(fetchCategories).length ==0){
+    if (Object.keys(fetchCategories).length == 0) {
 
-      fetchCategories("now_playing","movie");
+      fetchCategories("now_playing", "movie");
     }
 
-    
-  }, [])
 
+  }, [])
 
   return (
     <div className='h-full w-full mt-16 relative '>
+  
       <LeftSideBar />
       <div className=' w-11/12 h-[80vh] md:pr-10 lg:pr-0  flex  ml-24'>
 
         {Object.keys(trendingContent).length > 0 ? (
 
-          <Slider sliderContent={trendingContent.slice(0,5)} />
+          <Slider sliderContent={trendingContent.slice(0, 5)} />
         ) : (
           <Skeleton height='600px' width='1456px' />
         )}
@@ -76,7 +77,7 @@ const HomeContent = () => {
             <Skeleton
               height='256px'
               width='200px'
-              
+
               fadeDuration={5}>
 
             </Skeleton>
@@ -85,7 +86,7 @@ const HomeContent = () => {
         )}
 
       </div>
-      
+
     </div>
   )
 }
