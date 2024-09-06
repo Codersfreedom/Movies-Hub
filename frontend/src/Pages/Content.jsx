@@ -8,7 +8,9 @@ import useFetchTrending from "../hooks/useFetchTrending"
 
 import Card from "../Components/Card"
 import useFetchCategories from "../hooks/useFetchCategories"
-import { Skeleton, SkeletonText } from '@chakra-ui/skeleton'
+import { ORIGINAL_IMAGE_PATH } from '../utils/constants'
+import { Skeleton } from '@chakra-ui/skeleton'
+
 
 
 
@@ -22,11 +24,11 @@ const Content = ({ pageName }) => {
 
     const { fetchTrending } = useFetchTrending();
     const { fetchCategories } = useFetchCategories()
-
+    
     useEffect(() => {
-        if (pageName == "trending" && Object.keys(trendingContent).length != 0 && type != "all") {
+        if (pageName == "trending") {
 
-
+            console.log("trending called")
             fetchTrending(type);
         }
     }, [type])
@@ -59,6 +61,7 @@ const Content = ({ pageName }) => {
         )
     }
 
+    const imageURL = categoryContent =="undefined" ? ORIGINAL_IMAGE_PATH + trendingContent[Math.floor(Math.random()*trendingContent.length)]?.backdrop_path : ORIGINAL_IMAGE_PATH + categoryContent[Math.floor(Math.random()*categoryContent.length)]?.backdrop_path
 
     return (
         <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white  mt-16 relative mx-auto'>
@@ -67,10 +70,17 @@ const Content = ({ pageName }) => {
 
             <div className='w-full h-full flex  flex-col '>
 
-                <div className='relative h-96  w-full  ml-16  rounded-md bg-purple-400' >
-                    <img className='h-full w-full object-cover' src="wallpaperflare.jpg" alt="" />
+                {!isLoading ? (
+                    <div className='relative h-96  w-full  ml-16 poster  rounded-md' >
+                    <img className='h-full w-full object-cover' src={  imageURL  } alt="" />
                     <h1 className='absolute text-white text-4xl bottom-3 left-9'>{pageName.charAt(0).toUpperCase() + pageName.substring(1)}</h1>
                 </div>
+                ):(
+                    <Skeleton height={'600px'} width={'1456px'} />
+                )
+                
+                }
+                
 
                 <div className='w-full ml-24 mx-auto flex justify-start gap-3 mt-3 '>
 
