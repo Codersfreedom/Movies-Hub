@@ -33,7 +33,6 @@ function App() {
   )
   }
 
-console.log(authUser)
   return (
     <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white'>
     <Routes>

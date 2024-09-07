@@ -10,24 +10,25 @@ import useDebounceSearch from '../hooks/useDebounceSearch';
 
 const Header = ({ isAuthPage }) => {
 
-  const { authUser } = useAuthStore();
-  const { logout } = useLogout();
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
-  const { isTyping, setIsTyping, searchContent: searchResult } = useSearchStore();
-  const { searchContent } = useSearch();
-
   const [query, setQuery] = useState('');
   const [isVisible, setIsVisible] = useState(true);
 
+  const { authUser } = useAuthStore();
+  const { isTyping, setIsTyping, searchContent: searchResult } = useSearchStore();
+
+  const { logout } = useLogout();
+  const { searchContent } = useSearch();
   const deboucedValue = useDebounceSearch(query, 1000);
 
   const searchRef = useRef();
 
+
   document.body.addEventListener('click', (e) => {
-    if (e.target != searchRef.current) {
-      setIsVisible(false)
+    if (e.target == searchRef.current?.firstChild?.firstChild || e.target == searchRef.current?.lastChild?.firstChild) {
+      setIsVisible(true)
     } else {
-      setIsVisible(true);
+      setIsVisible(false);
     }
   })
 
@@ -80,14 +81,14 @@ const Header = ({ isAuthPage }) => {
         </Link>
       </div>
 
-      {!isAuthPage && (<div className='w-2/5  flex justify-center items-center  gap-2 '>
+      {!isAuthPage && (<div className='w-2/5  flex justify-center items-center  gap-2 ' ref={searchRef}>
 
-        <div className='w-full relative'>
+        <div className='w-full relative' >
 
           <input className='py-2  w-full rounded-md px-6 focus:outline-none  dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border    ' type="text" name="search-bar" id="search-bar" placeholder='Search Movies or Tv shows'
             value={query}
             onChange={handleType}
-            ref={searchRef}
+            
           />
           <Search size={18} className='text-gray-500 dark:text-white  absolute bottom-3 left-1 z-50' />
 

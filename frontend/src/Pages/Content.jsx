@@ -27,8 +27,6 @@ const Content = ({ pageName }) => {
     
     useEffect(() => {
         if (pageName == "trending") {
-
-            console.log("trending called")
             fetchTrending(type);
         }
     }, [type])
@@ -36,9 +34,7 @@ const Content = ({ pageName }) => {
 
     useEffect(() => {
         if (pageName == "movie") {
-
             fetchCategories(movieGenre, pageName);
-
         }
     }, [movieGenre])
 
