@@ -12,10 +12,10 @@ const Header = ({ isAuthPage }) => {
 
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
   const [query, setQuery] = useState('');
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   const { authUser } = useAuthStore();
-  const { isTyping, setIsTyping, searchContent: searchResult } = useSearchStore();
+  const { isTyping, setIsTyping, searchContent: searchResult,setSearchContent } = useSearchStore();
 
   const { logout } = useLogout();
   const { searchContent } = useSearch();
@@ -54,6 +54,7 @@ const Header = ({ isAuthPage }) => {
       setIsTyping(true)
     } else {
       setIsTyping(false)
+      setSearchContent({});
     }
   }
   // search here
@@ -85,14 +86,14 @@ const Header = ({ isAuthPage }) => {
 
         <div className='w-full relative' >
 
-          <input className='py-2  w-full rounded-md px-6 focus:outline-none  dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border    ' type="text" name="search-bar" id="search-bar" placeholder='Search Movies or Tv shows'
+          <input className='py-2  w-full rounded-md px-6 focus:outline-global-border dark:focus:outline-global-border-dark  dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border    ' type="text" name="search-bar" id="search-bar" placeholder='Search Movies or Tv shows'
             value={query}
             onChange={handleType}
             
           />
           <Search size={18} className='text-gray-500 dark:text-white  absolute bottom-3 left-1 z-50' />
 
-          {isTyping && isVisible && <SearchPage />}
+          {isTyping && isVisible && <SearchPage searchQuery={query} />}
         </div>
 
 

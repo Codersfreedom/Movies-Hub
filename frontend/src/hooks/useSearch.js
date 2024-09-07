@@ -5,6 +5,7 @@ const useSearch = () => {
   const { setIsLoading, setSearchContent } = useSearchStore();
 
   const searchContent = async (query) => {
+    
     setIsLoading(true);
     try {
       const response = await axios.get(`/api/v1/search/multi/${query}`);
