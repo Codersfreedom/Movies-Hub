@@ -1,4 +1,4 @@
-import { Clapperboard, Flame, History, House, Settings, Tv } from 'lucide-react'
+import { Clapperboard, Flame, History, House, ListVideo, Settings, Tv } from 'lucide-react'
 import { Link, useLocation, } from 'react-router-dom'
 import { useAuthStore } from '../store/useAuthSotre'
 
@@ -46,6 +46,8 @@ const LeftSideBar = () => {
                 </div>
             </Link>
             {authUser && (
+                <>
+                
                 <Link to="/history" className={`w-full hover:text-purple-600 hover:border-r-2 hover:border-r-purple-600 cursor-pointer ${router.pathname === '/history' ? 'active' : ''}`}
                 >
                     <div className='flex justify-center cursor-pointer items-center flex-col gap-1 w-full'>
@@ -54,6 +56,16 @@ const LeftSideBar = () => {
 
                     </div>
                 </Link>
+
+                <Link to="/watchlist" className={`w-full hover:text-purple-600 hover:border-r-2 hover:border-r-purple-600 cursor-pointer ${router.pathname === '/watchlist' ? 'active' : ''}`}
+                >
+                    <div className='flex justify-center cursor-pointer items-center flex-col gap-1 w-full'>
+                        <ListVideo size={20} />
+                        <p className='text-xs '>WatchList</p>
+
+                    </div>
+                </Link>
+                    </>
             )}
 
 

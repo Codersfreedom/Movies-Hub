@@ -1,9 +1,9 @@
 import express from 'express'
-import { getSearchHistory, getWatchList } from '../controllers/user.controller.js';
+import { deleteWatchList, getWatchList } from '../controllers/user.controller.js';
 
 const router = express.Router();
 
-router.get("/searchHistory",getSearchHistory);
 router.get("/watchList",getWatchList);
+router.delete("/watchList/:id",deleteWatchList);
 
 export default router;

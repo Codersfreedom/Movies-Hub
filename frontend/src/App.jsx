@@ -10,6 +10,7 @@ import Footer from './Components/Footer';
 import { useAuthStore } from './store/useAuthSotre';
 import { useEffect } from 'react';
 import {Toaster} from 'react-hot-toast';
+import WatchList from './Pages/WatchList';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
      <Route path="/tv" element={<Content pageName={'tv'} />} />
      <Route path="/tv/:id" element={<Details pageName={'tv'} />} />
      <Route path="/history" element={<History/>} />
+     <Route path="/watchlist" element={<WatchList/>} />
      <Route path="/profile" element={<Profile />} />
     </Routes>
     <Footer />
