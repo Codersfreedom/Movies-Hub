@@ -25,7 +25,7 @@ const Header = ({ isAuthPage }) => {
 
 
   document.body.addEventListener('click', (e) => {
-    if (e.target == searchRef.current?.firstChild?.firstChild || e.target == searchRef.current?.lastChild?.firstChild) {
+    if (e.target == searchRef?.current?.firstChild?.firstChild || e.target == searchRef?.current?.lastChild?.firstChild) {
       setIsVisible(true)
     } else {
       setIsVisible(false);
