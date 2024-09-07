@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Moon, Search, Sun, User } from 'lucide-react';
 import { Link } from 'react-router-dom'
 import { useAuthStore } from '../store/useAuthSotre';
@@ -6,18 +6,30 @@ import useLogout from '../hooks/useLogout';
 import { useSearchStore } from '../store/useSearchStore';
 import SearchPage from '../Pages/SearchPage';
 import useSearch from '../hooks/useSearch';
+import useDebounceSearch from '../hooks/useDebounceSearch';
 
 const Header = ({ isAuthPage }) => {
 
   const { authUser } = useAuthStore();
   const { logout } = useLogout();
-
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
-  const { isTyping, setIsTyping } = useSearchStore();
+  const { isTyping, setIsTyping, searchContent: searchResult } = useSearchStore();
+  const { searchContent } = useSearch();
 
-  const {searchContent} = useSearch();
+  const [query, setQuery] = useState('');
+  const [isVisible, setIsVisible] = useState(true);
 
-  const [query,setQuery] = useState();
+  const deboucedValue = useDebounceSearch(query, 1000);
+
+  const searchRef = useRef();
+
+  document.body.addEventListener('click', (e) => {
+    if (e.target != searchRef.current) {
+      setIsVisible(false)
+    } else {
+      setIsVisible(true);
+    }
+  })
 
 
   useEffect(() => {
@@ -36,19 +48,28 @@ const Header = ({ isAuthPage }) => {
   }
 
   const handleType = (e) => {
+    setQuery(e.target.value);
     if ((e.target.value).length > 0) {
       setIsTyping(true)
-      setQuery(e.target.value);
     } else {
       setIsTyping(false)
     }
   }
+  // search here
 
-  useEffect(()=>{
-    
-  },[query])
+  useEffect(() => {
+    if (deboucedValue.length > 0) {
+      searchContent(deboucedValue)
+    }
+  }, [deboucedValue]);
 
+  // search icon search event
 
+  const handleSearch = () => {
+    if (deboucedValue.length > 0 && Object.keys(searchResult).length == 0) {
+      searchContent(deboucedValue);
+    }
+  }
 
   return (
     <div className='w-full fixed top-0 flex mx-auto justify-between items-center  gap-6 p-3 border-b-2 dark:border-b-global-border-dark border-b-global-border  bg-gray-200 dark:bg-primary-dark dark:text-white text-black z-50'>
@@ -64,17 +85,19 @@ const Header = ({ isAuthPage }) => {
         <div className='w-full relative'>
 
           <input className='py-2  w-full rounded-md px-6 focus:outline-none  dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border    ' type="text" name="search-bar" id="search-bar" placeholder='Search Movies or Tv shows'
+            value={query}
             onChange={handleType}
+            ref={searchRef}
           />
           <Search size={18} className='text-gray-500 dark:text-white  absolute bottom-3 left-1 z-50' />
 
-          {isTyping && <SearchPage />}
+          {isTyping && isVisible && <SearchPage />}
         </div>
 
 
 
         <div className='rounded-md h-10 w-10 flex justify-center items-center cursor-pointer dark:bg-gray-600 border-1 dark:border-global-border-dark border-global-border   bg-white'>
-          <Search size={20} />
+          <Search onClick={handleSearch} size={20} />
         </div>
 
       </div>)}

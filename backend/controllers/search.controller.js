@@ -3,7 +3,7 @@ import { fetchMovies } from "../services/TMDB.services.js";
 
 export const searchContent = async (req, res) => {
   const { query } = req.params;
-
+  console.log("Search called")
   try {
     const response = await fetchMovies(
       `https://api.themoviedb.org/3/search/multi?query=${query}&include_adult=false&language=en-US&page=1`

@@ -6,31 +6,33 @@ export async function signup(req, res) {
   try {
     const { username, email, password } = req.body;
     if (!username || !email || !password) {
-     return res
+      return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-     return res.status(400).json({
+      return res.status(400).json({
         success: false,
         message: "Please enter a valid email address",
       });
     }
     if (!password.length >= 6) {
-     return res.status(400).json({
+      return res.status(400).json({
         success: false,
         message: "Password must be at least 6 characters",
       });
     }
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
-    return  res.status(400).json({ success: false, message: "Email already exists" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Email already exists" });
     }
     const existingUsername = await User.findOne({ username });
 
     if (existingUsername) {
-     return res
+      return res
         .status(400)
         .json({ success: false, message: "Username already exists" });
     }
@@ -107,9 +109,7 @@ export async function logout(_, res) {
 }
 
 export async function authCheck(req, res) {
-  console.log("Auth check called")
   try {
-    console.log("req.user",req.user);
     res.status(200).json({ success: true, user: req.user });
   } catch (error) {
     console.log("Error in authcheck controller", error.message);

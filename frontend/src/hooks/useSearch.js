@@ -8,7 +8,9 @@ const useSearch = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`/api/v1/search/multi/${query}`);
-      setSearchContent(response.data.content);
+      if (response.data.content) {
+        setSearchContent(response.data.content);
+      }
     } catch (error) {
       console.log(error.response.data.message);
       setSearchContent({});
@@ -16,7 +18,7 @@ const useSearch = () => {
       setIsLoading(false);
     }
   };
-  return {searchContent};
+  return { searchContent };
 };
 
 export default useSearch;
