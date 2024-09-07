@@ -19,7 +19,7 @@ const Search = ({searchQuery}) => {
         {Object.keys(searchContent).length >1 &&  searchContent.map((searchResult) => (
           <Link to={`/${searchResult?.media_type}/${searchResult?.id}`} key={searchResult?.id} className='flex gap-4 w-full  h-24 rounded-md hover:cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-500 pl-2 py-2'>
             <div className='h-full w-14 rounded-md overflow-hidden '>
-              <img className='h-full w-full' src={SMALL_IMAGE_PATH + searchResult.poster_path || SMALL_IMAGE_PATH + searchResult.profile_path } alt="" />
+              <img className='h-full w-full' src={SMALL_IMAGE_PATH + searchResult.poster_path || SMALL_IMAGE_PATH + searchResult.profile_path || SMALL_IMAGE_PATH + searchResult.poster_path } alt="" />
             </div>
 
             <div className='flex justify-center flex-col  overflow-hidden '>

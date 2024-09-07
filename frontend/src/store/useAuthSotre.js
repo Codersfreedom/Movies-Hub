@@ -5,8 +5,6 @@ export const useAuthStore = create((set)=>({
     authUser: null,
     isCheckingAuth:false,
     setAuthUser:(authUser) => set({authUser}),
-    isLoading:false,
-    setIsLoading:(isLoading) => set({isLoading}),
     authCheck: async () => {
 		set({ isCheckingAuth: true });
 		try {

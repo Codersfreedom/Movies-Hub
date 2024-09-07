@@ -8,6 +8,7 @@ const useGetDetails = () => {
 
   const getDetails = async (id,type) => {
     setIsLoading(true);
+    setContentDetails({});
     try {
       const content = await axios.get(`/api/v1/${type}/${id}/details`);
       
