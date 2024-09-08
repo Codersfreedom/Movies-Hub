@@ -1,12 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../Components/Header';
 import LeftSideBar from '../Components/LeftSideBar';
+import useFetchWatchList from '../hooks/useFetchWatchList';
+import { useWatchListStore } from '../store/useWatchListStore';
+import { Link } from 'react-router-dom';
+import { Skeleton, SkeletonText } from '@chakra-ui/skeleton';
+import { Trash } from 'lucide-react';
+import { SMALL_IMAGE_PATH } from '../utils/constants';
+import useDelelteWatchList from '../hooks/useDeleteWatchList';
 
 const WatchList = () => {
-    const history = {};
-    const isLoading = false;
 
+    const { wishList,isLoading,setWishList } = useWatchListStore();
+
+    const { fetchWatchList } = useFetchWatchList();
+    const {deleteWatchList} = useDelelteWatchList();
+
+
+    useEffect(() => {
+        fetchWatchList();
+    }, [])
+
+   
     const handleDelete = (e, id) => {
+        e.preventDefault();
+        deleteWatchList(id)
+        setWishList(wishList.filter((item)=>item.id != id));
 
     }
     return (
@@ -16,13 +35,13 @@ const WatchList = () => {
             <div className="w-full flex items-center justify-start flex-col mt-5 p-5">
                 <h1 className='text-4xl ml-36 self-start '>WatchList</h1>
                 <div className="w-4/5 h-fit  mt-12 rounded-md flex justify-center items-center">
-                    {Object.keys(history).length > 0 ?
+                    {wishList.length > 0 ?
 
                         (<>
                             <div className="w-screen min-h-56   rounded-md grid  p-10 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-3 ">
                                 {
-                                    history?.map((item, index) => (
-                                        <Link to={`/${item.searchType}/${item.id}`} key={index} className='flex h-80 w-52 flex-col gap-3 group'>
+                                    wishList?.map((item, index) => (
+                                        <Link to={`/${item.type}/${item.id}`} key={index} className='flex h-80 w-52 flex-col gap-3 group'>
                                             <div className='w-full h-4/5 relative  rounded-lg  overflow-hidden '>
                                                 <Skeleton
                                                     height={'256px'}

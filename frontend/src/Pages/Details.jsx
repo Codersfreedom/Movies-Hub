@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import CardSwiper from '../Components/CardSwiper'
 import Header from '../Components/Header'
@@ -12,6 +12,10 @@ import useGetDetails from '../hooks/useGetDetails'
 import { ORIGINAL_IMAGE_PATH, SMALL_IMAGE_PATH } from '../utils/constants'
 import useFetchReviews from '../hooks/useFetchReviews'
 import useFetchSimilar from '../hooks/useFetchSimilar'
+import useAddToWatchList from '../hooks/useAddToWatchList'
+import { useWatchListStore } from '../store/useWatchListStore'
+import useFetchWatchList from '../hooks/useFetchWatchList'
+import useDelelteWatchList from '../hooks/useDeleteWatchList'
 
 const Details = ({ pageName }) => {
 
@@ -21,17 +25,45 @@ const Details = ({ pageName }) => {
     const { getDetails } = useGetDetails();
     const { fetchReviews, reviews } = useFetchReviews()
     const { fetchSimilar, similar } = useFetchSimilar()
+    const { fetchWatchList } = useFetchWatchList();
+    const { addToWatchList } = useAddToWatchList()
+    const { deleteWatchList } = useDelelteWatchList();
 
     const { isLoading, contentDetails } = useContentStore();
+    const { wishList } = useWatchListStore();
+
+    const [isAddedToWishList, setIsAddedToWishList] = useState(false);
+
+    useEffect(() => {
+        if (wishList.length > 0) {
+
+            setIsAddedToWishList(wishList?.some((item) => item.id == id))
+        }
+
+    }, [wishList])
+
+
+
 
     useEffect(() => {
         getDetails(id, pageName);
         fetchReviews(id, pageName);
         fetchSimilar(id, pageName);
+        fetchWatchList();
     }, [id])
 
 
 
+    const handleAddToWatchList = () => {
+        if (isAddedToWishList) {
+            deleteWatchList(id)
+            setIsAddedToWishList(false)
+        } else {
+
+            addToWatchList(id, pageName, contentDetails.title || contentDetails.name, contentDetails.poster_path || contentDetails.backdrop_path)
+            setIsAddedToWishList(true)
+        }
+    }
 
 
 
@@ -73,12 +105,15 @@ const Details = ({ pageName }) => {
                     <div className='flex gap-4 justify-center items-center'>
 
                         <div className='h-10 w-24 rounded-lg bg-slate-500 text-white  flex justify-center items-center gap-1  px-3'>
-                            <Star size={20} /> {contentDetails.vote_average}
+                            <Star size={20} color='yellow' /> {contentDetails.vote_average}
                         </div>
 
                         <div className='flex justify-center items-center  gap-2'>
-                            <Heart className='rounded-full hover:cursor-pointer hover:bg-slate-500 transition-colors bg-slate-400 h-12 w-12 p-3' size={30} />
-                            <Check className='rounded-full hover:cursor-pointer hover:bg-slate-500 transition-colors bg-slate-400 h-12 w-12 p-3' size={30} />
+                            <Heart className='rounded-full hover:cursor-pointer hover:bg-slate-500 transition-colors text-red-600 h-12 w-12 p-3' size={30}
+                                onClick={handleAddToWatchList}
+                                fill={isAddedToWishList ? 'red' : "none"}
+                            />
+                            <Check className='rounded-full hover:cursor-pointer hover:bg-slate-500 transition-colors text-green-400 h-12 w-12 p-3' size={30} />
 
                         </div>
                     </div>
