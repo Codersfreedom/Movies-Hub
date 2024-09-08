@@ -6,7 +6,7 @@ export async function getTVTrailer(req, res) {
   const data = await fetchMovies(
     `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`
   );
-  res.status(200).json({ success: true, content: data });
+  res.status(200).json({ success: true, trailer: data.results });
   try {
   } catch (error) {
     if (error.message.includes("404")) {

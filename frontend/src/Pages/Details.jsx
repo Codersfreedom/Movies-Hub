@@ -6,7 +6,7 @@ import Header from '../Components/Header'
 import LeftSideBar from '../Components/LeftSideBar'
 
 import { Skeleton, SkeletonText } from '@chakra-ui/skeleton'
-import { Check, Heart, Star, Volume2, VolumeOff } from 'lucide-react'
+import { Check, Heart, LucidePlay, Star, Volume2, VolumeOff, Youtube } from 'lucide-react'
 import { useContentStore } from '../store/UseContentStore'
 import useGetDetails from '../hooks/useGetDetails'
 import { ORIGINAL_IMAGE_PATH, SMALL_IMAGE_PATH } from '../utils/constants'
@@ -16,6 +16,7 @@ import useAddToWatchList from '../hooks/useAddToWatchList'
 import { useWatchListStore } from '../store/useWatchListStore'
 import useFetchWatchList from '../hooks/useFetchWatchList'
 import useDelelteWatchList from '../hooks/useDeleteWatchList'
+import useFetchTrailer from '../hooks/useFetchTrailer'
 
 const Details = ({ pageName }) => {
 
@@ -28,11 +29,13 @@ const Details = ({ pageName }) => {
     const { fetchWatchList } = useFetchWatchList();
     const { addToWatchList } = useAddToWatchList()
     const { deleteWatchList } = useDelelteWatchList();
+    const {fetchTrailer,isLoading:trailerLoading,trailer} = useFetchTrailer()
 
     const { isLoading, contentDetails } = useContentStore();
     const { wishList } = useWatchListStore();
 
     const [isAddedToWishList, setIsAddedToWishList] = useState(false);
+    const[isPlaying,setIsPlaying] = useState(false);
 
     useEffect(() => {
         if (wishList.length > 0) {
@@ -53,7 +56,7 @@ const Details = ({ pageName }) => {
     }, [id])
 
 
-
+    // Add to wishlist functionality 
     const handleAddToWatchList = () => {
         if (isAddedToWishList) {
             deleteWatchList(id)
@@ -65,7 +68,12 @@ const Details = ({ pageName }) => {
         }
     }
 
-
+    // video play functionality 
+    const handlePlay = ()=>{
+        setIsPlaying(true);
+        fetchTrailer(id,pageName);
+    }
+    console.log(trailer)
 
     if (Object.keys(contentDetails).length == 0 || isLoading) {
         return (
@@ -86,8 +94,8 @@ const Details = ({ pageName }) => {
             {/* Content start */}
             <div className='w-full min-h-full flex flex-col '>
                 {/* Banner */}
-                <div className='relative h-[80vh]  w-screen  ml-16  rounded-md' >
-                    <img className='max-h-full  w-full object-cover' src={contentDetails.backdrop_path !== null ? ORIGINAL_IMAGE_PATH + contentDetails.backdrop_path : ORIGINAL_IMAGE_PATH + contentDetails.poster_path} alt='poster' />
+                <div className='relative h-[80vh]  w-screen  ml-16  rounded-md group' >
+                    <img className='max-h-full  w-full object-cover ' src={contentDetails.backdrop_path !== null ? ORIGINAL_IMAGE_PATH + contentDetails.backdrop_path : ORIGINAL_IMAGE_PATH + contentDetails.poster_path} alt='poster' />
                     <div className='absolute bottom-3 left-9 flex flex-col gap-2'>
                         <h1 className=' text-white text-4xl '>{contentDetails?.title || contentDetails.name}</h1>
                         <div className='flex gap-2 text-white'>
@@ -95,9 +103,9 @@ const Details = ({ pageName }) => {
 
                         </div>
                     </div>
-                    <Volume2 className='rounded-full absolute right-20 bottom-3  hover:cursor-pointer hover:bg-slate-500 transition-colors bg-slate-400 h-12 w-12 p-3' size={30} />
-                    <VolumeOff className='rounded-full hidden absolute right-20 bottom-3  hover:cursor-pointer hover:bg-slate-500 transition-colors bg-slate-400 h-12 w-12 p-3' size={30} />
-
+                    {!isPlaying && <LucidePlay className='absolute hidden  top-2/4 right-2/4 transition-transform duration-300 ease-in-out hover:scale-125 cursor-pointer group-hover:block text-white ' 
+                    onClick={handlePlay}
+                    size={60} />}
                 </div>
                 {/* Rating section */}
                 <div className='w-full  justify-center items-start flex flex-col ml-24 mt-5 gap-5'>
