@@ -35,14 +35,11 @@ const Content = ({ pageName }) => {
     useEffect(() => {
         if (pageName == "movie") {
             fetchCategories(movieGenre, pageName);
-        }
-    }, [movieGenre])
-
-    useEffect(() => {
-        if (pageName == "tv") {
+        }else{
             fetchCategories(tvGenre, pageName)
         }
-    }, [tvGenre])
+    }, [movieGenre,tvGenre,pageName])
+
 
 
     if (isLoading) {
@@ -74,7 +71,7 @@ const Content = ({ pageName }) => {
             <div className='w-full h-full flex  flex-col '>
 
                 {!isLoading ? (
-                    <div className='relative h-96  w-full  ml-16 poster  rounded-md' >
+                    <div className='relative h-[70vh]  w-full  ml-16 poster  rounded-md' >
                     <img className='h-full w-full object-cover' src={ORIGINAL_IMAGE_PATH +  imageURL  } alt="" />
                     <h1 className='absolute text-white text-4xl bottom-3 left-9'>{pageName.charAt(0).toUpperCase() + pageName.substring(1)}</h1>
                 </div>
@@ -85,7 +82,7 @@ const Content = ({ pageName }) => {
                 }
                 
 
-                <div className='w-full ml-24 mx-auto flex justify-start gap-3 mt-3 '>
+                <div className='w-full ml-24 mx-auto flex justify-start gap-3 mt-3 flex-wrap '>
 
                     {pageName === 'trending' && (
                         <>
@@ -117,7 +114,7 @@ const Content = ({ pageName }) => {
 
                 </div>
 
-                <div className='min-w-4/5  ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-0 mr-12 '>
+                <div className='min-w-4/5  ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2  gap-0 mr-12  '>
 
                     { Object.keys(trendingContent).length >0 && pageName === "trending" && trendingContent.map((content) => (
                         <Card key={content.id} content={content} type={content.media_type} />

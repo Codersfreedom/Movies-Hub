@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useState } from "react";
 import { useContentStore } from "../store/UseContentStore";
 
 const useFetchCategories = () => {
@@ -8,9 +7,9 @@ const useFetchCategories = () => {
 
   const fetchCategories = async (category,type) => {
     setIsLoading(true);
+    setCategoryContent({});
     try {
       const content = await axios.get(`/api/v1/${type}/${category}`);
-      console.log(content)
       setCategoryContent(content.data.category.results);
       
     } catch (error) {
