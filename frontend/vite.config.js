@@ -7,7 +7,7 @@ export default defineConfig({
   server:{
     proxy:{
       '/api':{
-        target:'https://movies-hub-kohl.vercel.app',
+        target:'http://localhost:5000',
         
       }
     }
