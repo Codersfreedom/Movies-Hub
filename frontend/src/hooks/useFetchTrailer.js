@@ -9,8 +9,9 @@ const useFetchTrailer = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`/api/v1/${type}/${id}/trailer`);
-      console.log(response)
+      // console.log(response)
       if (response.data.success) {
+        
         setTrailer(response.data.trailer);
       }
     } catch (error) {

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useSearchStore } from "../store/useSearchStore";
+import toast from "react-hot-toast";
 
 const useSearch = () => {
   const { setIsLoading, setSearchContent } = useSearchStore();
@@ -14,6 +15,7 @@ const useSearch = () => {
       }
     } catch (error) {
       console.log(error.response.data.message);
+      toast.error("Please login to search content")
       setSearchContent({});
     } finally {
       setIsLoading(false);

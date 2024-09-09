@@ -6,7 +6,7 @@ import Header from '../Components/Header'
 import LeftSideBar from '../Components/LeftSideBar'
 
 import { Skeleton, SkeletonText } from '@chakra-ui/skeleton'
-import { Check, Heart, LucidePlay, Star, Volume2, VolumeOff, Youtube } from 'lucide-react'
+import { Check, Heart, LucidePlay, Star } from 'lucide-react'
 import { useContentStore } from '../store/UseContentStore'
 import useGetDetails from '../hooks/useGetDetails'
 import { ORIGINAL_IMAGE_PATH, SMALL_IMAGE_PATH } from '../utils/constants'
@@ -17,6 +17,7 @@ import { useWatchListStore } from '../store/useWatchListStore'
 import useFetchWatchList from '../hooks/useFetchWatchList'
 import useDelelteWatchList from '../hooks/useDeleteWatchList'
 import useFetchTrailer from '../hooks/useFetchTrailer'
+import ReactPlayer from 'react-player/youtube'
 
 const Details = ({ pageName }) => {
 
@@ -29,23 +30,27 @@ const Details = ({ pageName }) => {
     const { fetchWatchList } = useFetchWatchList();
     const { addToWatchList } = useAddToWatchList()
     const { deleteWatchList } = useDelelteWatchList();
-    const {fetchTrailer,isLoading:trailerLoading,trailer} = useFetchTrailer()
+    const { fetchTrailer, isLoading: trailerLoading, trailer } = useFetchTrailer()
 
     const { isLoading, contentDetails } = useContentStore();
-    const { wishList } = useWatchListStore();
+    const { wishList, isSuccess } = useWatchListStore();
 
-    const [isAddedToWishList, setIsAddedToWishList] = useState(false);
-    const[isPlaying,setIsPlaying] = useState(false);
+
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [isAlreadyAddedToWishList, setIsAlreadyAddedToWishList] = useState(false);
 
     useEffect(() => {
         if (wishList.length > 0) {
 
-            setIsAddedToWishList(wishList?.some((item) => item.id == id))
+            setIsAlreadyAddedToWishList(wishList?.some((item) => item.id == id))
         }
 
     }, [wishList])
 
 
+    useEffect(() => {
+        setIsPlaying(false);
+    }, [id])
 
 
     useEffect(() => {
@@ -58,22 +63,25 @@ const Details = ({ pageName }) => {
 
     // Add to wishlist functionality 
     const handleAddToWatchList = () => {
-        if (isAddedToWishList) {
+        if (isAlreadyAddedToWishList) {
             deleteWatchList(id)
-            setIsAddedToWishList(false)
+            setIsAlreadyAddedToWishList(!isSuccess);
         } else {
 
             addToWatchList(id, pageName, contentDetails.title || contentDetails.name, contentDetails.poster_path || contentDetails.backdrop_path)
-            setIsAddedToWishList(true)
+            setIsAlreadyAddedToWishList(isSuccess)
         }
     }
 
     // video play functionality 
-    const handlePlay = ()=>{
+    const handlePlay = () => {
         setIsPlaying(true);
-        fetchTrailer(id,pageName);
+        fetchTrailer(id, pageName);
     }
-    console.log(trailer)
+    let url;
+    if (trailer && trailer.length > 0) {
+        url = `https://www.youtube.com/watch?v=${trailer[trailer.length - 1].key}`
+    }
 
     if (Object.keys(contentDetails).length == 0 || isLoading) {
         return (
@@ -95,17 +103,34 @@ const Details = ({ pageName }) => {
             <div className='w-full min-h-full flex flex-col '>
                 {/* Banner */}
                 <div className='relative h-[80vh]  w-screen  ml-16  rounded-md group' >
-                    <img className='max-h-full  w-full object-cover ' src={contentDetails.backdrop_path !== null ? ORIGINAL_IMAGE_PATH + contentDetails.backdrop_path : ORIGINAL_IMAGE_PATH + contentDetails.poster_path} alt='poster' />
-                    <div className='absolute bottom-3 left-9 flex flex-col gap-2'>
-                        <h1 className=' text-white text-4xl '>{contentDetails?.title || contentDetails.name}</h1>
-                        <div className='flex gap-2 text-white'>
-                            <h2 >{contentDetails.genres[0].name}</h2> <span>●</span> <span>{contentDetails.release_date ? contentDetails.release_date.split("-")[0] : contentDetails.first_air_date.split("-")[0]}</span> <span>●</span> <span>{contentDetails.adult ? "18+" : "PG-13"}</span>
+                    {!isPlaying ? (
+                        <>
+                            <img className='max-h-full  w-full object-cover ' src={contentDetails.backdrop_path !== null ? ORIGINAL_IMAGE_PATH + contentDetails.backdrop_path : ORIGINAL_IMAGE_PATH + contentDetails.poster_path} alt='poster' />
+                            <div className='absolute bottom-3 left-9 flex flex-col gap-2'>
+                                <h1 className=' text-white text-4xl '>{contentDetails?.title || contentDetails.name}</h1>
+                                <div className='flex gap-2 text-white'>
+                                    <h2 >{contentDetails.genres[0].name}</h2> <span>●</span> <span>{contentDetails.release_date ? contentDetails.release_date.split("-")[0] : contentDetails.first_air_date.split("-")[0]}</span> <span>●</span> <span>{contentDetails.adult ? "18+" : "PG-13"}</span>
 
-                        </div>
-                    </div>
-                    {!isPlaying && <LucidePlay className='absolute hidden  top-2/4 right-2/4 transition-transform duration-300 ease-in-out hover:scale-125 cursor-pointer group-hover:block text-white ' 
-                    onClick={handlePlay}
-                    size={60} />}
+                                </div>
+                            </div>
+                        </>
+                    ) : (!trailerLoading && trailer && trailer.length > 0 ?
+                        (
+                            <Skeleton isLoaded={!trailerLoading} className='w-full h-full pr-10'>
+                                <ReactPlayer width='98%' height='100%' url={url} controls />
+                            </Skeleton>
+                        ) : (
+                            <div className='flex items-center justify-center h-full w-full'>
+                                <h2 className='text-xl text-center'>Sorry no trailer is available for this {pageName.charAt(0) + pageName.substring(1)}</h2>
+                            </div>
+                        )
+
+
+                    )}
+
+                    {!isPlaying && <LucidePlay className='absolute hidden  top-2/4 right-2/4 transition-transform duration-300 ease-in-out hover:scale-125 cursor-pointer group-hover:block text-white '
+                        onClick={handlePlay}
+                        size={60} />}
                 </div>
                 {/* Rating section */}
                 <div className='w-full  justify-center items-start flex flex-col ml-24 mt-5 gap-5'>
@@ -119,7 +144,7 @@ const Details = ({ pageName }) => {
                         <div className='flex justify-center items-center  gap-2'>
                             <Heart className='rounded-full hover:cursor-pointer hover:bg-slate-500 transition-colors text-red-600 h-12 w-12 p-3' size={30}
                                 onClick={handleAddToWatchList}
-                                fill={isAddedToWishList ? 'red' : "none"}
+                                fill={isAlreadyAddedToWishList ? 'red' : "none"}
                             />
                             <Check className='rounded-full hover:cursor-pointer hover:bg-slate-500 transition-colors text-green-400 h-12 w-12 p-3' size={30} />
 

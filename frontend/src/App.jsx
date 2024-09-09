@@ -45,8 +45,8 @@ function App() {
      <Route path="/movie/:id" element={<Details pageName={'movie'}/>} />
      <Route path="/tv" element={<Content pageName={'tv'} />} />
      <Route path="/tv/:id" element={<Details pageName={'tv'} />} />
-     <Route path="/history" element={<History/>} />
-     <Route path="/watchlist" element={<WatchList/>} />
+     <Route path="/history" element={authUser ? <History/>:<Navigate to={'/'} />} />
+     <Route path="/watchlist" element={authUser ? <WatchList/>:<Navigate to={'/'} />} />
      <Route path="/profile" element={<Profile />} />
     </Routes>
     <Footer />

@@ -43,7 +43,7 @@ const HomeContent = () => {
     <div className='h-full w-full mt-16 relative '>
   
       <LeftSideBar />
-      <div className=' w-11/12 h-[80vh] md:pr-10 lg:pr-0  flex  ml-24'>
+      <div className=' lg:w-11/12 lg:h-[80vh] md:h-[50vh] md:w-11/12 sm:w-4/5 md:pr-10  lg:pr-0  flex justify-center  ml-24'>
 
         {Object.keys(trendingContent).length > 0 ? (
 

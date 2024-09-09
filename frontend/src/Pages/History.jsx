@@ -86,7 +86,7 @@ const History = () => {
 
 
                             </div>
-                        </>) : <h1 className='text-2xl'>No History Found</h1>}
+                        </>) : <h1 className='text-2xl'>No History Found. Try searching some content</h1>}
 
                 </div>
 

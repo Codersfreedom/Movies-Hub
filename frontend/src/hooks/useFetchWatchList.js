@@ -8,7 +8,6 @@ const useFetchWatchList = () => {
     setIsLoading(true);
     try {
       const response = await axios.get("/api/v1/user/watchList");
-      console.log(response)
       if (response.data.success) {
         setWishList(response.data.content);
       }

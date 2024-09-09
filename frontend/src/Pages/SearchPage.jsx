@@ -7,7 +7,6 @@ import { SMALL_IMAGE_PATH } from '../utils/constants'
 const Search = ({searchQuery}) => {
   const { searchContent, isLoading } = useSearchStore();
 
-  console.log(searchContent)
   return (
     <div className='absolute flex flex-col min-h-fit  w-full p-4  rounded-b-md top-10 left-0    dark:bg-gray-600 border-2 border-global-border dark:border-global-border-dark  bg-white z-50 '>
       <h3 className='text-start font-bold text-xs mb-3'>Search Result For: {searchQuery} </h3>
