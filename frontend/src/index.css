@@ -2,14 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+html,body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  overflow-x: hidden;
   font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
+  
+}
+body{
+  overflow-x: hidden;
+  
 }
 ::-webkit-scrollbar {
   width: 0.3125rem;
@@ -95,3 +99,79 @@ body {
     rgba(0, 0, 0, 0.8)
   );
 }
+
+.grid-content{
+  display: grid;
+  grid-template-columns: repeat(6,1fr);
+  column-gap: 0px;
+  justify-items: start;
+  padding-right: 2px;
+  
+}
+
+
+@media (max-width:1397px){
+  .grid-content{
+    grid-template-columns: repeat(5,1fr);
+  }
+ 
+}
+@media (max-width:1180px){
+  .grid-content{
+    grid-template-columns: repeat(4,1fr);
+  }
+}
+
+
+@media (max-width:1000px){
+  .grid-content{
+    grid-template-columns: repeat(3,1fr);
+  }
+ 
+}
+ @media (max-width:800px){
+  .grid-content{
+    grid-template-columns: repeat(2,1fr);
+    column-gap: 2px;
+    
+  }
+
+
+}  @media (max-width:636px){
+  .grid-content{
+    grid-template-columns: repeat(3,1fr);
+    column-gap: 2px;
+    
+  }
+  
+} 
+ @media (max-width:581px){
+  .grid-content{
+    grid-template-columns: repeat(2,1fr);
+    column-gap: 2px;
+    
+  }
+  .hero-section{
+    width: 90vw;
+  }
+} 
+
+
+
+@media (max-width:780px){
+  .hero-section{
+    width: 75vw;
+    height: 40vh;
+  }
+}
+
+
+/* @media (max-width:470px){
+  .grid-content{
+    grid-template-columns: 1fr;
+  }
+  .side-bar{
+    display: hidden;
+  }
+}  */
+

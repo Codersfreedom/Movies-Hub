@@ -4,10 +4,10 @@ import HomeContent from '../Components/HomeContent'
 
 const Home = () => {
   return (
-    <div>
+    <>
       <Header/>
       <HomeContent/>
-    </div>
+    </>
   )
 }
 

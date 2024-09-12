@@ -40,10 +40,10 @@ const HomeContent = () => {
   }, [])
 
   return (
-    <div className='h-full w-full mt-16 relative '>
+    <div className='min-h-full min-w-full max-sm:w-full  mt-16 relative dark:bg-body-dark  '>
   
       <LeftSideBar />
-      <div className=' lg:w-11/12 lg:h-[80vh] md:h-[50vh] md:w-11/12 sm:w-4/5 md:pr-10  lg:pr-0  flex justify-center  ml-24'>
+      <div className='hero-section w-[90vw] h-[80vh]   flex justify-center max-sm:w-[85vw] max-sm:h-[70vh]  ml-24 mt-12 max-sm:ml-10'>
 
         {Object.keys(trendingContent).length > 0 ? (
 
@@ -53,11 +53,11 @@ const HomeContent = () => {
         )}
       </div>
 
-      <h1 className='text-2xl font-bold ml-24 mt-12'>Now Playing</h1>
+      <h1 className='text-2xl font-bold ml-24 max-sm:ml-10 max-sm:text-xl mt-12'>Now Playing</h1>
 
-      <div className='w-11/12  ml-24 mt-6 grid lg:grid-cols-6 md:grid-cols-3 sm:grid-cols-2 gap-5 pb-5 ' >
+      <div className='max-w-full grid-content  ml-24 mt-6 max-sm:ml-10  max-sm:min-w-full  pb-4 ' >
         {Object.keys(categoryContent).length > 0 && categoryContent?.map((content, index) => (
-          <Link key={index} to={`/movie/${content?.id}`} className='flex h-80 w-52 flex-col gap-3 group  '>
+          <Link key={index} to={`/movie/${content?.id}`} className='flex h-80 w-52 max-sm:h-56 max-sm:w-32 max-sm:gap-1 flex-col gap-3 group  '>
             <div className='w-full h-4/5   rounded-lg  overflow-hidden '>
               <img className='object-cover transition-transform duration-300 ease-in-out group-hover:scale-125 rounded-md h-full w-full' title='' src={`${SMALL_IMAGE_PATH}${content.poster_path}`} alt={content.title || content.name} />
             </div>

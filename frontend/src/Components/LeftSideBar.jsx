@@ -10,7 +10,7 @@ const LeftSideBar = () => {
 
 
     return (
-        <div className='h-screen w-16 flex justify-start flex-col gap-4 items-center py-3  dark:text-white dark:bg-primary-dark  bg-gray-200 text-black border-r-2 border-r-global-border fixed  z-40'>
+        <div className='side-bar min-h-full w-16 flex justify-start flex-col gap-4 items-center py-3  dark:text-white dark:bg-primary-dark  bg-gray-200 text-black border-r-2 border-r-global-border fixed  z-40 max-sm:hidden'>
 
             <Link to="/" className={`w-full hover:text-purple-600 hover:border-r-2 hover:border-r-purple-600  transition-all duration-300 ease-in-out  cursor-pointer ${router.pathname === '/' && 'active'} `}
 

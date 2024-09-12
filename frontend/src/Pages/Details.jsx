@@ -96,7 +96,7 @@ const Details = ({ pageName }) => {
     }
 
     return (
-        <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white  mt-16 relative mx-auto'>
+        <div className='min-h-screen min-w-full dark:bg-body-dark dark:text-white  mt-16 relative mx-auto'>
             <Header />
             <LeftSideBar />
             {/* Content start */}
@@ -117,7 +117,7 @@ const Details = ({ pageName }) => {
                     ) : (!trailerLoading && trailer && trailer.length > 0 ?
                         (
                             <Skeleton isLoaded={!trailerLoading} className='w-full h-full pr-10'>
-                                <ReactPlayer width='98%' height='100%' url={url} controls />
+                                <ReactPlayer className="aspect-video" width='98%' height='100%' url={url} controls />
                             </Skeleton>
                         ) : (
                             <div className='flex items-center justify-center h-full w-full'>
@@ -179,7 +179,7 @@ const Details = ({ pageName }) => {
                 </div>
                 {/* Similar content */}
                 <h1 className='ml-24 mt-10 text-2xl font-bold'>Similar</h1>
-                <div className='similar ml-24 mt-6 sm:grid-cols-2 grid md:grid-cols-3 lg:grid-cols-5  gap-0 mr-12 '>
+                <div className='similar ml-24 mt-6  grid-content'>
                     {similar.map((content, index) => (
 
                         <Link key={index} to={`/${pageName}/${content.id}`} className='flex h-80 w-52 flex-col gap-3 group   '>
