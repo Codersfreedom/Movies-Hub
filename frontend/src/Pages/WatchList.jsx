@@ -33,15 +33,15 @@ const WatchList = () => {
             <Header />
             <LeftSideBar />
             <div className="w-full flex items-center justify-start flex-col mt-5 p-5">
-                <h1 className='text-4xl ml-36 self-start '>WatchList</h1>
+                <h1 className='text-4xl ml-36 text-start max-sm:ml-0 max-sm:text-2xl '>WatchList</h1>
                 <div className="w-4/5 h-fit  mt-12 rounded-md flex justify-center items-center">
                     {wishList.length > 0 ?
 
                         (<>
-                            <div className="w-screen min-h-56   rounded-md grid  p-10 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-3 ">
+                            <div className="w-screen min-h-56   rounded-md grid-content lg:grid-cols-5 md:grid-cols-3 gap-4 ">
                                 {
                                     wishList?.map((item, index) => (
-                                        <Link to={`/${item.type}/${item.id}`} key={index} className='flex h-80 w-52 flex-col gap-3 group'>
+                                        <Link to={`/${item.type}/${item.id}`} key={index} className='flex h-80 w-52 max-sm:h-56 max-sm:w-32 max-sm:gap-3 flex-col gap-3 group'>
                                             <div className='w-full h-4/5 relative  rounded-lg  overflow-hidden '>
                                                 <Skeleton
                                                     height={'256px'}

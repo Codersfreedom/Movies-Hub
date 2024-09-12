@@ -64,14 +64,14 @@ const Content = ({ pageName }) => {
 
 
     return (
-        <div className='min-h-screen min-w-full max-sm:w-full dark:bg-body-dark dark:text-white  mt-16 relative pr-10'>
+        <div className='min-h-screen w-screen  dark:bg-body-dark dark:text-white  mt-16  relative overflow-hidden'>
             <Header />
             <LeftSideBar />
 
-            <div className='w-full h-full flex  flex-col pr-4 '>
+            <div className='w-full h-full flex  flex-col pr-20 '>
 
                 {!isLoading ? (
-                    <div className='relative h-[70vh] max-sm:h-[50vh] max-sm:w-[92%]  w-full  ml-16 max-sm:ml-10 poster  rounded-md' >
+                    <div className='relative  h-[70vh] max-sm:h-[50vh] max-sm:w-[92%]  w-full  ml-16 max-sm:ml-10 poster  rounded-md' >
                         <img className='h-full w-full max-sm:rounded-md object-cover' src={ORIGINAL_IMAGE_PATH + imageURL} alt="" />
                         <h1 className='absolute text-white text-4xl bottom-3 left-9'>{pageName.charAt(0).toUpperCase() + pageName.substring(1)}</h1>
                     </div>
@@ -82,11 +82,11 @@ const Content = ({ pageName }) => {
                 }
 
 
-                <div className='w-full ml-24 max-sm:ml-10  flex justify-start gap-2 mt-3 flex-wrap max-sm:pr-10 '>
+                <div className='w-full ml-24 max-sm:ml-10  flex justify-start gap-2 mt-3 flex-wrap max-sm:pr-10  '>
 
                     {pageName === 'trending' && (
                         <>
-                            <button className={` px-2 py-2  max-sm:text-sm text-white cursor-pointer  hover:bg-purple-600 transition-all  rounded-2xl ${type === "all" ? "bg-purple-600 " : "bg-slate-400"}`} onClick={() => setType("all")}>All</button>
+                            <button className={`w-12 px-2 py-2  max-sm:text-sm text-white cursor-pointer  hover:bg-purple-600 transition-all  rounded-2xl ${type === "all" ? "bg-purple-600 " : "bg-slate-400"}`} onClick={() => setType("all")}>All</button>
                             <button className={` px-2 py-2  max-sm:text-sm text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${type === "movie" ? "bg-purple-600 " : "bg-slate-400"}`} onClick={() => setType("movie")}>Movies</button>
                             <button className={` px-2 py-2  max-sm:text-sm text-white cursor-pointer  hover:bg-purple-600 transition-all rounded-2xl ${type === "tv" ? "bg-purple-600 " : "bg-slate-400"}`} onClick={() => setType("tv")} >Tv Shows</button>
                         </>)

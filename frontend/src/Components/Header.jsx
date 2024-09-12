@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { LogIn, LogOut, Menu, Moon, Search, Sun, User } from 'lucide-react';
+import {  LogInIcon, LogOut, Moon, Search, Sun, User } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthSotre';
 import useLogout from '../hooks/useLogout';
 import { useSearchStore } from '../store/useSearchStore';
@@ -82,7 +82,7 @@ const Header = ({ isAuthPage }) => {
     <div className='w-full fixed top-0  flex mx-auto justify-between items-center  gap-6 max-sm:gap-2 p-3 border-b-2 dark:border-b-global-border-dark border-b-global-border  bg-gray-200 dark:bg-primary-dark dark:text-white text-black z-50'>
       <div>
         <Link to="/">
-          <h2 className='text-xl  font-medium'>MoviesHub</h2>
+          <img src="/Movieshub_logo.jpg" alt="logo" className='w-12 mix-blend-exclusion' />
 
         </Link>
       </div>
@@ -110,12 +110,18 @@ const Header = ({ isAuthPage }) => {
 
       </div>)}
 
-      <div className='flex justify-center gap-2 items-center pr-4 max-sm:hidden'>
+      <div className='flex justify-center gap-2 items-center pr-4'>
 
         {!authUser ? (<Link to="/login">
-          <button className='bg-white dark:text-white dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border w-fit h-11 px-2 font-medium rounded-md'>Login</button>
+          <div className='rounded-md w-11 h-11 px-2 flex justify-center items-center cursor-pointer dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border  bg-white'>
+            <LogInIcon onClick={handleLogout} size={15} />
+
+          </div>
         </Link>) :
-          <button className='bg-white dark:text-white dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border w-fit h-11 px-2 font-medium rounded-md' onClick={handleLogout}>Logout</button>
+            <div className='rounded-md  w-11 h-11 px-2 flex justify-center items-center cursor-pointer dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border  bg-white'>
+            <LogOut onClick={handleLogout}  size={15} />
+
+          </div>
 
         }
 
@@ -126,7 +132,7 @@ const Header = ({ isAuthPage }) => {
         </div>
 
 
-        <div className='rounded-md  dark:text-white dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border w-11 h-11 px-2 flex justify-center items-center cursor-pointer  bg-white'>
+        <div className='rounded-md max-sm:hidden dark:text-white dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border w-11 h-11 px-2 flex justify-center items-center cursor-pointer  bg-white'>
           <User size={20} />
         </div>
 
@@ -134,30 +140,7 @@ const Header = ({ isAuthPage }) => {
       </div>
 
 
-      <div className='flex justify-center gap-2 items-center pr-10 '>
-
-        {!authUser ? (<Link to="/login">
-          <LogIn className='bg-white dark:text-white dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border w-fit h-11 px-2 font-medium rounded-md' size={20} />
-        </Link>) :
-
-          <div className='rounded-md w-11 h-11 px-2 flex justify-center items-center cursor-pointer dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border  bg-white'>
-            <LogOut onClick={handleLogout} size={15} />
-
-          </div>
-
-        }
-
-        <div className='rounded-md  dark:text-white dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border w-11 h-11 px-2  flex justify-center items-center cursor-pointer  bg-white'
-          onClick={toggleDarkMode}
-        >
-          {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
-        </div>
-
-
-
-
-
-      </div>
+ 
     </div>
   )
 }

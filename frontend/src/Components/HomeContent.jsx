@@ -40,7 +40,7 @@ const HomeContent = () => {
   }, [])
 
   return (
-    <div className='min-h-full min-w-full max-sm:w-full  mt-16 relative dark:bg-body-dark  '>
+    <div className='min-h-screen max-w-screen  mt-16 max-sm:mt-5 pr-4 relative dark:bg-body-dark overflow-hidden '>
   
       <LeftSideBar />
       <div className='hero-section w-[90vw] h-[80vh]   flex justify-center max-sm:w-[85vw] max-sm:h-[70vh]  ml-24 mt-12 max-sm:ml-10'>
@@ -55,9 +55,9 @@ const HomeContent = () => {
 
       <h1 className='text-2xl font-bold ml-24 max-sm:ml-10 max-sm:text-xl mt-12'>Now Playing</h1>
 
-      <div className='max-w-full grid-content  ml-24 mt-6 max-sm:ml-10  max-sm:min-w-full  pb-4 ' >
+      <div className='max-w-full grid-content  ml-24 mt-6 max-sm:ml-10  max-sm:min-w-full  pr-14 ' >
         {Object.keys(categoryContent).length > 0 && categoryContent?.map((content, index) => (
-          <Link key={index} to={`/movie/${content?.id}`} className='flex h-80 w-52 max-sm:h-56 max-sm:w-32 max-sm:gap-1 flex-col gap-3 group  '>
+          <Link key={index} to={`/movie/${content?.id}`} className='flex h-80 w-52 max-sm:h-56 max-sm:w-32 max-sm:gap-1 flex-col gap-3 group pb-3 '>
             <div className='w-full h-4/5   rounded-lg  overflow-hidden '>
               <img className='object-cover transition-transform duration-300 ease-in-out group-hover:scale-125 rounded-md h-full w-full' title='' src={`${SMALL_IMAGE_PATH}${content.poster_path}`} alt={content.title || content.name} />
             </div>

@@ -96,18 +96,18 @@ const Details = ({ pageName }) => {
     }
 
     return (
-        <div className='min-h-screen min-w-full dark:bg-body-dark dark:text-white  mt-16 relative mx-auto'>
+        <div className='min-h-screen w-screen dark:bg-body-dark dark:text-white  mt-16 relative mx-auto overflow-hidden'>
             <Header />
             <LeftSideBar />
             {/* Content start */}
             <div className='w-full min-h-full flex flex-col '>
                 {/* Banner */}
-                <div className='relative h-[80vh]  w-screen  ml-16  rounded-md group' >
+                <div className='relative h-[80vh] max-sm:h-[30vh] w-screen  ml-16 max-sm:ml-0 rounded-md group' >
                     {!isPlaying ? (
                         <>
                             <img className='max-h-full  w-full object-cover ' src={contentDetails.backdrop_path !== null ? ORIGINAL_IMAGE_PATH + contentDetails.backdrop_path : ORIGINAL_IMAGE_PATH + contentDetails.poster_path} alt='poster' />
-                            <div className='absolute bottom-3 left-9 flex flex-col gap-2'>
-                                <h1 className=' text-white text-4xl '>{contentDetails?.title || contentDetails.name}</h1>
+                            <div className='absolute bottom-5 left-5 flex flex-col gap-2'>
+                                <h1 className=' text-white text-4xl max-sm:text-xl'>{contentDetails?.title || contentDetails.name}</h1>
                                 <div className='flex gap-2 text-white'>
                                     <h2 >{contentDetails.genres[0].name}</h2> <span>●</span> <span>{contentDetails.release_date ? contentDetails.release_date.split("-")[0] : contentDetails.first_air_date.split("-")[0]}</span> <span>●</span> <span>{contentDetails.adult ? "18+" : "PG-13"}</span>
 
@@ -128,12 +128,12 @@ const Details = ({ pageName }) => {
 
                     )}
 
-                    {!isPlaying && <LucidePlay className='absolute hidden  top-2/4 right-2/4 transition-transform duration-300 ease-in-out hover:scale-125 cursor-pointer group-hover:block text-white '
+                    {!isPlaying && <LucidePlay className='absolute hidden  top-2/4 right-2/4 transition-transform duration-300 ease-in-out hover:scale-125 cursor-pointer group-hover:block text-white'
                         onClick={handlePlay}
                         size={60} />}
                 </div>
                 {/* Rating section */}
-                <div className='w-full  justify-center items-start flex flex-col ml-24 mt-5 gap-5'>
+                <div className='w-full  justify-center items-start flex flex-col ml-24 max-sm:ml-10 mt-5 gap-5'>
 
                     <div className='flex gap-4 justify-center items-center'>
 
@@ -151,14 +151,14 @@ const Details = ({ pageName }) => {
                         </div>
                     </div>
                     {/* Overview section */}
-                    <div className='w-11/12 h-fit flex  gap-8 justify-between mt-5 pr-2' >
-                        <div className='text-justify w-1/2'>
+                    <div className='w-11/12 h-fit flex max-sm:flex-col-reverse  gap-8 justify-between mt-5 pr-2' >
+                        <div className='text-justify w-1/2 max-sm:text-wrap max-sm:w-full pr-10'>
 
                             {contentDetails?.overview}
                         </div>
-                        <div className='flex flex-col w-1/2 items-center gap-2'>
-                            <h2 className='text-2xl font-bold mb-3'>Genre</h2>
-                            <div className='flex gap-2 w-full h-fit justify-center flex-wrap '>
+                        <div className='flex flex-col w-1/2 items-start gap-2 max-sm:w-full justify-start'>
+                            <h2 className='text-2xl font-bold mb-3 text-start'>Genre</h2>
+                            <div className='flex gap-2 w-full h-fit justify-start items-center flex-wrap '>
                                 {
                                     contentDetails.genres.map((genre, index) => {
 
@@ -173,16 +173,16 @@ const Details = ({ pageName }) => {
                 {/* Reviews section */}
 
 
-                <div className=' reviews flex h-[300px]  w-full justify-center ml-5 mt-5 ' >
+                <div className=' reviews flex h-[300px]  w-full justify-center ml-5 mt-5 max-sm:hidden ' >
                     <CardSwiper reviews={reviews} />
 
                 </div>
                 {/* Similar content */}
-                <h1 className='ml-24 mt-10 text-2xl font-bold'>Similar</h1>
-                <div className='similar ml-24 mt-6  grid-content'>
+                <h1 className='ml-24 mt-10 text-2xl font-bold max-sm:ml-10'>Similar</h1>
+                <div className='similar ml-24 mt-6  grid-content max-sm:ml-10'>
                     {similar.map((content, index) => (
 
-                        <Link key={index} to={`/${pageName}/${content.id}`} className='flex h-80 w-52 flex-col gap-3 group   '>
+                        <Link key={index} to={`/${pageName}/${content.id}`} className='flex h-80 w-52 max-sm:h-56 max-sm:w-32 max-sm:gap-1 flex-col gap-3 group   '>
                             <div className='w-full h-4/5  rounded-lg  overflow-hidden '>
                                 <Skeleton
                                     height={'256px'}
