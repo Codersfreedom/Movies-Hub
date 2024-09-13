@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Header from '../Components/Header'
 import { Link } from 'react-router-dom'
 import useLogin from '../hooks/useLogin';
@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState();
 
   const { login } = useLogin();
-  const user ={
+  const user = {
     email,
     password
   }
@@ -18,7 +18,7 @@ const Login = () => {
       return toast.error("All fields are required");
     }
     login(user);
-   
+
   }
   return (
     <div>
