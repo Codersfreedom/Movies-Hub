@@ -24,7 +24,7 @@ const CardSwiper = ({ reviews }) => {
         <>
             <Swiper
                 onSwiper={setSwiperRef}
-                slidesPerView={1}
+                slidesPerView={4}
                 centeredSlides={false}
                 spaceBetween={30}
                 navigation={true}

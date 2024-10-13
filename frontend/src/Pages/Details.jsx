@@ -39,19 +39,6 @@ const Details = ({ pageName }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isAlreadyAddedToWishList, setIsAlreadyAddedToWishList] = useState(false);
 
-    useEffect(() => {
-        if (wishList.length > 0) {
-
-            setIsAlreadyAddedToWishList(wishList?.some((item) => item.id == id))
-        }
-
-    }, [wishList])
-
-
-    useEffect(() => {
-        setIsPlaying(false);
-    }, [id])
-
 
     useEffect(() => {
         getDetails(id, pageName);
@@ -59,6 +46,23 @@ const Details = ({ pageName }) => {
         fetchSimilar(id, pageName);
         fetchWatchList();
     }, [id])
+
+
+    useEffect(() => {
+        if (wishList.length > 0) {
+
+            setIsAlreadyAddedToWishList(wishList?.some((item) => item.id == id))
+        }
+
+    }, [])
+
+
+    useEffect(() => {
+        setIsPlaying(false);
+    }, [id])
+
+
+   
 
 
     // Add to wishlist functionality 
@@ -102,7 +106,7 @@ const Details = ({ pageName }) => {
             {/* Content start */}
             <div className='w-full min-h-full flex flex-col '>
                 {/* Banner */}
-                <div className='relative h-[80vh] max-sm:h-[30vh] w-screen  ml-16 max-sm:ml-0 rounded-md group' >
+                <div className='relative h-[80vh] max-sm:h-[30vh] max-w-screen  xl:ml-16 max-sm:ml-0 rounded-md' >
                     {!isPlaying ? (
                         <>
                             <img className='max-h-full  w-full object-cover ' src={contentDetails.backdrop_path !== null ? ORIGINAL_IMAGE_PATH + contentDetails.backdrop_path : ORIGINAL_IMAGE_PATH + contentDetails.poster_path} alt='poster' />
@@ -114,21 +118,29 @@ const Details = ({ pageName }) => {
                                 </div>
                             </div>
                         </>
-                    ) : (!trailerLoading && trailer && trailer.length > 0 ?
+                    ) : (trailer && trailer.length > 0 ?
                         (
-                            <Skeleton isLoaded={!trailerLoading} className='w-full h-full pr-10'>
+                            <Skeleton isLoaded={!trailerLoading} className='max-w-full h-full '>
                                 <ReactPlayer className="aspect-video" width='98%' height='100%' url={url} controls />
                             </Skeleton>
-                        ) : (
+                        ) :
+                        (!trailerLoading && trailer && trailer.length === 0 && (
+
                             <div className='flex items-center justify-center h-full w-full'>
                                 <h2 className='text-xl text-center'>Sorry no trailer is available for this {pageName.charAt(0) + pageName.substring(1)}</h2>
                             </div>
+
+
                         )
+
+                        )
+
+
 
 
                     )}
 
-                    {!isPlaying && <LucidePlay className='absolute hidden  top-2/4 right-2/4 transition-transform duration-300 ease-in-out hover:scale-125 cursor-pointer group-hover:block text-white'
+                    {!isPlaying && <LucidePlay className='absolute top-[30%] xl:top-1/2 right-[50%]   transition-transform duration-300 ease-in-out hover:scale-125 cursor-pointer text-white'
                         onClick={handlePlay}
                         size={60} />}
                 </div>
