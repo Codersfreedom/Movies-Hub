@@ -13,7 +13,7 @@ export const addToWatchList = async (req, res) => {
   try {
     const { id, type, title, image } = req.body;
 
-   await User.findByIdAndUpdate(req.user._id, {
+  const watchList= await User.findByIdAndUpdate(req.user._id, {
       $push: {
         watchList: {
           id,
@@ -23,8 +23,8 @@ export const addToWatchList = async (req, res) => {
           createdAt: new Date(),
         },
       },
-    });
-    res.status(200).json({ success: true, message: "Added to watchList" });
+    },{new:true});
+    res.status(200).json({ success: true, message: "Added to watchList",watchList });
   } catch (error) {
     console.log("Error in user controller", error.message);
     res.status(500).json({ success: false, message: "Internal server error" });

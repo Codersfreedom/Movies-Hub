@@ -18,6 +18,8 @@ import useFetchWatchList from '../hooks/useFetchWatchList'
 import useDelelteWatchList from '../hooks/useDeleteWatchList'
 import useFetchTrailer from '../hooks/useFetchTrailer'
 import ReactPlayer from 'react-player/youtube'
+import { useAuthStore } from '../store/useAuthSotre'
+import toast from 'react-hot-toast'
 
 const Details = ({ pageName }) => {
 
@@ -32,12 +34,14 @@ const Details = ({ pageName }) => {
     const { deleteWatchList } = useDelelteWatchList();
     const { fetchTrailer, isLoading: trailerLoading, trailer } = useFetchTrailer()
 
+    const { authUser } = useAuthStore();
     const { isLoading, contentDetails } = useContentStore();
     const { wishList, isSuccess } = useWatchListStore();
 
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [isAlreadyAddedToWishList, setIsAlreadyAddedToWishList] = useState(false);
+
 
 
     useEffect(() => {
@@ -54,7 +58,7 @@ const Details = ({ pageName }) => {
             setIsAlreadyAddedToWishList(wishList?.some((item) => item.id == id))
         }
 
-    }, [])
+    }, [id])
 
 
     useEffect(() => {
@@ -62,21 +66,26 @@ const Details = ({ pageName }) => {
     }, [id])
 
 
-   
+
 
 
     // Add to wishlist functionality 
     const handleAddToWatchList = () => {
+
+        if (!authUser) return toast.error("Please login to add watchlist")
+
         if (isAlreadyAddedToWishList) {
             deleteWatchList(id)
-            setIsAlreadyAddedToWishList(!isSuccess);
+            setIsAlreadyAddedToWishList(false);
         } else {
 
             addToWatchList(id, pageName, contentDetails.title || contentDetails.name, contentDetails.poster_path || contentDetails.backdrop_path)
-            setIsAlreadyAddedToWishList(isSuccess)
+
+            setIsAlreadyAddedToWishList(true)
         }
     }
 
+    console.log('watchlist', isAlreadyAddedToWishList)
     // video play functionality 
     const handlePlay = () => {
         setIsPlaying(true);

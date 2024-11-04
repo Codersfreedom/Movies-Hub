@@ -114,7 +114,7 @@ const Header = ({ isAuthPage }) => {
 
         {!authUser ? (<Link to="/login">
           <div className='rounded-md w-11 h-11 px-2 flex justify-center items-center cursor-pointer dark:bg-gray-600 border-2 dark:border-global-border-dark border-global-border  bg-white'>
-            <LogInIcon onClick={handleLogout} size={15} />
+            <LogInIcon  size={15} />
 
           </div>
         </Link>) :

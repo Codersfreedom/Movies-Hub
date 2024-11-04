@@ -35,7 +35,7 @@ const WatchList = () => {
             <div className="w-full flex items-center justify-start flex-col mt-5 p-5">
                 <h1 className='text-4xl ml-36 text-start max-sm:ml-0 max-sm:text-2xl '>WatchList</h1>
                 <div className="w-4/5 h-fit  mt-12 rounded-md flex justify-center items-center">
-                    {wishList.length > 0 ?
+                    {wishList?.length > 0 ?
 
                         (<>
                             <div className="w-screen min-h-56   rounded-md grid-content lg:grid-cols-5 md:grid-cols-3 gap-4 ">
